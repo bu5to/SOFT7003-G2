@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <!-- Here, it's loading the CSS file from the folder /static/css -->
+    <title>{% block title %}{% endblock %} - NetBallApp</title>
+    {% endblock %}
+  </head>
+  <body>
+
+    <div id="content">
+                <!-- Include here stuff that will appear in the body of EVERY page.
+                 (Not in block content, that's reserved for template inheritance)-->
+
+        {% block content %}
+
+        {% endblock %}
+    </div>
+    <div id="footer">
+            <!-- Include here stuff that will appear in the footer of EVERY page. -->
+
+      {% block footer %}
+
+      {% endblock %}
+    </div>
+  </body>
+</html>

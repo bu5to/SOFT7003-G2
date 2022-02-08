@@ -1,12 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>this is only a test of github</h1>
-</body>
-</html>
+{% extends "base.html" %} <!-- This means that this .html file is a "child" of base.html. -->
+{% block title %}Index{% endblock %} <!-- Here, put the title of the tab. -->
+{% block head %}
+  {{ super() }}
+  <!-- Include here stuff that would go in <head> in HTML -->
+{% endblock %}
+{% block content %}
+    <!-- Here, include all the stuff that belongs to <body>, but that ONLY appears in this HTML document.
+    The goal of template inheritance is basically not having to repeat lines of HTML per each HTML file,
+    and make everything more accessible and readable.-->
+      <h1>this is only a test of github</h1>
+{% endblock %}
