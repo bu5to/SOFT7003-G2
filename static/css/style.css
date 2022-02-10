@@ -35,10 +35,21 @@ body {
 
   /* ------- COLOURS V. ------- */
 
-  --brookes-color-pink: #d10373;
-  --brookes-color-lime: #9eab05;
-  --brookes-color-grey: #424a52;
-  --color-white: #faf9f6;
+  --brookes-primary-color-pink: #d10373;
+  --brookes-primary-color-lime: #9eab05;
+  --brookes-primary-color-grey: #424a52;
+
+  --brookes-secondary-color-purple: #6a2150;
+  --brookes-secondary-color-red: #c70540;
+  --brookes-secondary-color-yellow: #e3ba12;
+  --brookes-secondary-color-gold: #f49103;
+  --brookes-secondary-color-aqua: #0085a1;
+  --brookes-secondary-color-blue: #003896;
+  --brookes-secondary-color-green: #006338;
+
+  --brookes-neutral-color-lightGrey: #adafaf;
+  --brookes-neutral-color-darkGrey: #f3f3f3;
+  --brookes-neutral-color-white: #faf9f6;
 }
 
 /* -------------------------- */
