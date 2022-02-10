@@ -14,17 +14,17 @@
     {% endblock %}
   </head>
   <body>
-    <div id="content">
+    <section>
       <!-- Include here stuff that will appear in the body of EVERY page.
                  (Not in block content, that's reserved for template inheritance)-->
 
       {% block content %} {% endblock %}
-    </div>
-    <div id="footer">
+    </section>
+    <footer>
       <!-- Include here stuff that will appear in the footer of EVERY page. -->
 
       {% block footer %} {% endblock %}
-    </div>
+    </footer>
   </body>
 </html>
 

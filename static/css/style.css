@@ -29,7 +29,16 @@ body {
 /* -------------------------- */
 
 :root {
+  /* -------- GRID V. --------- */
+
   --horizontal-grid-gutter: 2rem;
+
+  /* ------- COLOURS V. ------- */
+
+  --brookes-color-pink: #d10373;
+  --brookes-color-lime: #9eab05;
+  --brookes-color-grey: #424a52;
+  --color-white: #faf9f6;
 }
 
 /* -------------------------- */
@@ -93,10 +102,6 @@ body {
       var(--horizontal-grid-gutter)
   );
 }
-
-/* -------------------------- */
-/* -------- COLOURS --------- */
-/* -------------------------- */
 
 /* -------------------------- */
 /* ------ NAVIGATION -------- */
