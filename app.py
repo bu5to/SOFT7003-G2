@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, make_response, send_from_directory
 
 app = Flask(__name__)
 
@@ -26,6 +26,13 @@ def team():
 def contact():
     return render_template('contact.html')
 
+@app.route('/sw.js')
+def sw():
+    response=make_response(
+                     send_from_directory('static',path='sw.js'))
+    #change the content header file. Can also omit; flask will handle correctly.
+    response.headers['Content-Type'] = 'application/javascript'
+    return response
 #These URLs above will be later on substituted by the sections specified
 #in the document.
 
