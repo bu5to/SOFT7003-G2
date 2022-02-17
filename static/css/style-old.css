@@ -1,0 +1,125 @@
+/* -------------------------- */
+/* --------- BASE ----------- */
+/* -------------------------- */
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%; /* 1rem */
+}
+
+body {
+  font-family: sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  color: black;
+  padding: 3rem;
+
+  box-sizing: border-box;
+
+  background-color: var(--brookes-primary-color-pink);
+}
+
+/* -------------------------- */
+/* ------- VARIABLES -------- */
+/* -------------------------- */
+
+:root {
+  /* -------- GRID V. --------- */
+
+  --horizontal-grid-gutter: 2rem;
+
+  /* ------- COLOURS V. ------- */
+
+  --brookes-primary-color-pink: #d10373;
+  --brookes-primary-color-lime: #9eab05;
+  --brookes-primary-color-grey: #424a52;
+
+  --brookes-secondary-color-purple: #6a2150;
+  --brookes-secondary-color-red: #c70540;
+  --brookes-secondary-color-yellow: #e3ba12;
+  --brookes-secondary-color-gold: #f49103;
+  --brookes-secondary-color-aqua: #0085a1;
+  --brookes-secondary-color-blue: #003896;
+  --brookes-secondary-color-green: #006338;
+
+  --brookes-neutral-color-lightGrey: #adafaf;
+  --brookes-neutral-color-darkGrey: #f3f3f3;
+  --brookes-neutral-color-white: #faf9f6;
+}
+
+/* -------------------------- */
+/* --------- GRID ----------- */
+/* -------------------------- */
+
+.row {
+  max-width: 114rem;
+  background-color: darkgray;
+  margin: 0 auto;
+}
+
+.row:not(:last-child) {
+  margin-bottom: 80px;
+}
+
+.row::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.row .col {
+  background-color: orangered;
+  float: left;
+}
+
+.row .col:not(:last-child) {
+  margin-right: var(--horizontal-grid-gutter);
+}
+
+.row .col-1-2 {
+  width: calc((100% - var(--horizontal-grid-gutter)) / 2);
+}
+
+.row .col-1-3 {
+  width: calc((100% - 2 * var(--horizontal-grid-gutter)) / 3);
+}
+
+.row .col-2-3 {
+  width: calc(
+    2 * ((100% - 2 * var(--horizontal-grid-gutter)) / 3) +
+      var(--horizontal-grid-gutter)
+  );
+}
+
+.row .col-1-4 {
+  width: calc((100% - 3 * var(--horizontal-grid-gutter)) / 4);
+}
+
+.row .col-2-4 {
+  width: calc(
+    2 * ((100% - 3 * var(--horizontal-grid-gutter)) / 4) +
+      var(--horizontal-grid-gutter)
+  );
+}
+
+.row .col-3-4 {
+  width: calc(
+    3 * ((100% - 3 * var(--horizontal-grid-gutter)) / 4) + 2 *
+      var(--horizontal-grid-gutter)
+  );
+}
+
+/* -------------------------- */
+/* ------ NAVIGATION -------- */
+/* -------------------------- */
+
+/* -------------------------- */
+/* ------ INDEX PAGE -------- */
+/* -------------------------- */
