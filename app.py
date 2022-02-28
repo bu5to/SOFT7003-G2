@@ -1,55 +1,24 @@
 from flask import Flask, render_template, make_response, send_from_directory, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import InputRequired, Length, ValidationError
-from flask_bcrypt import Bcrypt
+#from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
+#from flask_bcrypt import Bcrypt
+from models import User
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'database.db'
+##app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://jiyerqtkdtzmiq:b0b8a7677c2904fe4e37412e1452190cc4368512c9ad0542071835b7ac713ec3@ec2-54-220-243-77.eu-west-1.compute.amazonaws.com:5432/dbh08b84org3rp'
 #Edit to connect to SQL database
-app.config['SECRET_KEY'] = 'thisisasecretkey'
+##app.config['SECRET_KEY'] = 'thisisasecretkey'
 #We need to produce an actual secret key, min 30 random characters, min 256 bits.
 db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = "login"
+##bcrypt = Bcrypt(app)
+##login_manager = LoginManager()
+##login_manager.init_app(app)
+##login_manager.login_view = "login"
 #This allows flask to manage the login process, i.e. loading users according to IDs.
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key = True)
-    username = db.Column(db.String(20), nullable = False, unique = True)
-    password = db.Column(db.String(80), nullable = False)
-    email = db.Column(db.String(30), nullable = False, unique = True)
-#Creates a SQL table for storing user information
-
-class registerForm(FlaskForm):
-    username = StringField(validators = [InputRequired(), Length(min = 4, max = 20)], render_kw={"placeholder": "Username"})
-    password = PasswordField(validators = [InputRequired(), Length(min = 5, max = 20)], render_kw={"placeholder": "Password"})
-    email = StringField(validators = [InputRequired(), Length(min = 4, max = 30)], render_kw={"placeholder": "Email"})
-    submit = SubmitField("Register")
-    def validate_username(self, username):
-        existing_user_username = User.query.filter_by(username=username.data).first()
-        if existing_user_username:
-            raise ValidationError("That username has already been taken, please choose a different one.")
-
-    def validate_email(self, email):
-        existing_user_email = User.query.filter_by(email=email.data).first()
-        if existing_user_email:
-            raise ValidationError("An account using that email already exists.")
-#This creates the registry form which can be displayed within the register page.
-#If the username or email are already within the database, then it doesn't allow the details to be registered.
-
-class loginForm(FlaskForm):
-    username = StringField(validators = [InputRequired(), Length(min = 4, max = 20)], render_kw={"placeholder": "Username"})
-    password = PasswordField(validators = [InputRequired(), Length(min = 5, max = 20)], render_kw={"placeholder": "Password"})
-    submit = SubmitField("Login")
+##@login_manager.user_loader
+##def load_user(user_id):
+  ##  return User.query.get(int(user_id))
 
 @app.route("/")
 def index():
@@ -85,28 +54,28 @@ def sw():
 #These URLs above will be later on substituted by the sections specified
 #in the document.
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    form = loginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user:
-            if bcrypt.check_password_hash(user.password, form.password.data):
-                login_user(user)
-                return redirect(url_for('index'))
-    return render_template('login.html', form = form)
+##@app.route('/login', methods=['GET', 'POST'])
+##def login():
+##  form = loginForm()
+##  if form.validate_on_submit():
+##      user = User.query.filter_by(username=form.username.data).first()
+##      if user:
+##          if bcrypt.check_password_hash(user.password, form.password.data):
+##              login_user(user)
+##              return redirect(url_for('index'))
+##  return render_template('login.html', form = form)
 
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    form = registerForm()
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data)
-        new_user = User(username = form.username.data, password = hashed_password, email = form.email.data)
-        db.session.add(new_user)
-        db.session.commit()
-        return redirect(url_for('login'))
-    return render_template('/register.html', form = form)
+##@app.route('/register', methods=['GET', 'POST'])
+##def register():
+    ##form = registerForm()
+    ##if form.validate_on_submit():
+        ##hashed_password = bcrypt.generate_password_hash(form.password.data)
+        ##new_user = User(username = form.username.data, password = hashed_password, email = form.email.data)
+        ##db.session.add(new_user)
+        ##      db.session.commit()
+        ##  return redirect(url_for('login'))
+    ##    return render_template('/register.html', form = form)
 
 @app.route('/logout', methods=['GET', 'POST'])
 @login_required
@@ -114,8 +83,5 @@ def logout():
     logout_user()
     return redirect(url_for='/login')
 
-
-
-
-
-            #This is a test comment.
+if __name__ == '__main__':
+    app.run(debug == True)
