@@ -447,7 +447,7 @@ section {
   font-weight: 700;
   padding: 8px 20px;
   margin: 0;
-  background: #f3f8ec;
+  background: #f2ddf3;
   color: #d10373;
   display: inline-block;
   text-transform: uppercase;
@@ -543,7 +543,7 @@ section {
 .about .play-btn {
   width: 94px;
   height: 94px;
-  background: radial-gradient(#d10373 50%, rgba(143, 192, 78, 0.4) 52%);
+  background: radial-gradient(#d10373 50%, rgb(209, 3, 115) 52%);
   border-radius: 50%;
   display: block;
   position: absolute;
@@ -582,7 +582,7 @@ section {
   animation-timing-function: steps;
   opacity: 1;
   border-radius: 50%;
-  border: 5px solid rgba(143, 192, 78, 0.7);
+  border: 5px solid rgb(209, 3, 115);
   top: -15%;
   left: -15%;
   background: rgba(198, 16, 0, 0);
@@ -746,7 +746,7 @@ section {
   transition: ease-in-out 0.3s;
 }
 .services .icon-box .icon i {
-  color: #bfdb99;
+  color: #d10373;
   font-size: 28px;
   transition: ease-in-out 0.3s;
 }
@@ -960,7 +960,7 @@ section {
   border-radius: 50px;
   width: 36px;
   height: 36px;
-  background: rgba(143, 192, 78, 0.8);
+  background: rgb(209, 3, 115);
   display: inline-block;
   transition: ease-in-out 0.3s;
   color: #fff;
@@ -1173,8 +1173,8 @@ section {
   color: #fff;
 }
 .pricing .recommended .btn-buy:hover {
-  background: #7aa93c;
-  border-color: #7aa93c;
+  background: #d10373;
+  border-color: #d10373;
 }
 .pricing .recommended-badge {
   position: absolute;
@@ -1193,10 +1193,10 @@ section {
 # F.A.Q
 --------------------------------------------------------------*/
 .faq {
-  background: #f5faf0;
+  background: #ffd3ff;
 }
 .faq .section-title h2 {
-  background: #e9f3dd;
+  background: #ffd3ff;
 }
 .faq .faq-list {
   padding: 0 100px;
@@ -1230,7 +1230,7 @@ section {
   position: absolute;
   right: 0;
   left: 20px;
-  color: #cbe1ac;
+  color: #ffd3ff;
 }
 .faq .faq-list .icon-show,
 .faq .faq-list .icon-close {
@@ -1372,7 +1372,7 @@ section {
   border-radius: 50px;
 }
 .contact .php-email-form button[type="submit"]:hover {
-  background: #7aa93c;
+  background: #d10373;
 }
 @-webkit-keyframes animate-loading {
   0% {
@@ -1507,7 +1507,7 @@ section {
   box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
 }
 #footer .footer-top .footer-newsletter form input[type="submit"]:hover {
-  background: #75a239;
+  background: #d10373;
 }
 #footer .footer-top .social-links {
   margin-top: 30px;
@@ -1527,7 +1527,7 @@ section {
   transition: 0.3s;
 }
 #footer .footer-top .social-links a:hover {
-  background: #75a239;
+  background: #d10373;
   color: #fff;
   text-decoration: none;
 }

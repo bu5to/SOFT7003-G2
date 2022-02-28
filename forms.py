@@ -1,11 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, SelectField
 from wtforms.validators import InputRequired, Length, ValidationError
 from models import User
 
-class registerForm(FlaskForm):
+class RegisterForm(FlaskForm):
     username = StringField(validators = [InputRequired(), Length(min = 4, max = 20)], render_kw={"placeholder": "Username"})
     password = PasswordField(validators = [InputRequired(), Length(min = 5, max = 20)], render_kw={"placeholder": "Password"})
+ #   role = SelectField(u'Role', choices=[('coach', 'Coach'), ('player', 'Player')])
     email = StringField(validators = [InputRequired(), Length(min = 4, max = 30)], render_kw={"placeholder": "Email"})
     submit = SubmitField("Register")
     def validate_username(self, username):
@@ -20,7 +21,7 @@ class registerForm(FlaskForm):
 #This creates the registry form which can be displayed within the register page.
 #If the username or email are already within the database, then it doesn't allow the details to be registered.
 
-class loginForm(FlaskForm):
+class LoginForm(FlaskForm):
     username = StringField(validators = [InputRequired(), Length(min = 4, max = 20)], render_kw={"placeholder": "Username"})
     password = PasswordField(validators = [InputRequired(), Length(min = 5, max = 20)], render_kw={"placeholder": "Password"})
     submit = SubmitField("Login")

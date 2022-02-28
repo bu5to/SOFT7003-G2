@@ -1,8 +1,8 @@
 from flask import Flask, render_template, make_response, send_from_directory, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
-from flask_bcrypt import Bcrypt
 from flask.cli import with_appcontext
+from forms import RegisterForm, LoginForm
 from base import Session, engine, Base
 import click
 from models import User
@@ -13,7 +13,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://jiyerqtkdtzmiq:b0b8a7677c290
 app.config['SECRET_KEY'] = 'thisisasecretkey'
 #We need to produce an actual secret key, min 30 random characters, min 256 bits.
 db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
@@ -59,7 +58,7 @@ def sw():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-  form = loginForm()
+  form = LoginForm()
   if form.validate_on_submit():
       user = User.query.filter_by(username=form.username.data).first()
       if user:
@@ -71,14 +70,14 @@ def login():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    form = registerForm()
+    form = RegisterForm()
     session = Session()
     if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data)
-        new_user = User(username = form.username.data, password = hashed_password, email = form.email.data)
-        session.add(new_user)
-        session.commit()
-        return redirect(url_for('login'))
+        if form.data['submit']:
+            new_user = User(username = form.username.data, password = hashed_password, email = form.email.data)
+            session.add(new_user)
+            session.commit()
+            return redirect(url_for('login'))
     return render_template('/register.html', form = form)
 
 @app.route('/logout', methods=['GET', 'POST'])
