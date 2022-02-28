@@ -2,6 +2,9 @@ from flask import Flask, render_template, make_response, send_from_directory, ur
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
 from flask_bcrypt import Bcrypt
+from flask.cli import with_appcontext
+from base import Session, engine, Base
+import click
 from models import User
 
 app = Flask(__name__)
@@ -82,6 +85,18 @@ def sw():
 #def logout():
  #   logout_user()
   #  return redirect(url_for='/login')
+
+@click.command()
+@with_appcontext
+def create_tables():
+    Base.metadata.drop_all(bind=engine, tables=[User.__table__])
+    Base.metadata.create_all(engine)
+    session = Session()
+    u1 = User("testuser", "Sample Text", "testuser@brookes.ac.uk", "password")
+    session.add(u1)
+    session.commit()
+    print("Tables have been created.")
+    session.close()
 
 if __name__ == '__main__':
     app.run(debug == True)
