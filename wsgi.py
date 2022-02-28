@@ -13,15 +13,15 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://jiyerqtkdtzmiq:b0b8a7677c290
 app.config['SECRET_KEY'] = 'thisisasecretkey'
 #We need to produce an actual secret key, min 30 random characters, min 256 bits.
 db = SQLAlchemy(app)
-##bcrypt = Bcrypt(app)
-##login_manager = LoginManager()
-##login_manager.init_app(app)
-##login_manager.login_view = "login"
+bcrypt = Bcrypt(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
 #This allows flask to manage the login process, i.e. loading users according to IDs.
 
-##@login_manager.user_loader
-##def load_user(user_id):
-##    return User.query.get(int(user_id))
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 @app.route("/")
 def index():
@@ -57,46 +57,48 @@ def sw():
 #These URLs above will be later on substituted by the sections specified
 #in the document.
 
-##@app.route('/login', methods=['GET', 'POST'])
-##def login():
-##  form = loginForm()
-##  if form.validate_on_submit():
-##      user = User.query.filter_by(username=form.username.data).first()
-##      if user:
-##          if bcrypt.check_password_hash(user.password, form.password.data):
-##              login_user(user)
-##              return redirect(url_for('index'))
-##  return render_template('login.html', form = form)
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+  form = loginForm()
+  if form.validate_on_submit():
+      user = User.query.filter_by(username=form.username.data).first()
+      if user:
+          if bcrypt.check_password_hash(user.password, form.password.data):
+              login_user(user)
+              return redirect(url_for('index'))
+  return render_template('login.html', form = form)
 
 
-##@app.route('/register', methods=['GET', 'POST'])
-##def register():
-    ##form = registerForm()
-    ##if form.validate_on_submit():
-    ##    hashed_password = bcrypt.generate_password_hash(form.password.data)
-    ##    new_user = User(username = form.username.data, password = hashed_password, email = form.email.data)
-    ##    db.session.add(new_user)
-    ##    db.session.commit()
-  ##      return redirect(url_for('login'))
-##    return render_template('/register.html', form = form)
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = registerForm()
+    session = Session()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data)
+        new_user = User(username = form.username.data, password = hashed_password, email = form.email.data)
+        session.add(new_user)
+        session.commit()
+        return redirect(url_for('login'))
+    return render_template('/register.html', form = form)
 
-#@app.route('/logout', methods=['GET', 'POST'])
-#@login_required
-#def logout():
- #   logout_user()
-  #  return redirect(url_for='/login')
+@app.route('/logout', methods=['GET', 'POST'])
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for='/login')
 
-@click.command()
-@with_appcontext
+#@click.command()
+#@with_appcontext
 def create_tables():
     Base.metadata.drop_all(bind=engine, tables=[User.__table__])
     Base.metadata.create_all(engine)
     session = Session()
-    u1 = User("testuser", "Sample Text", "testuser@brookes.ac.uk", "password")
+    u1 = User("1", "SampleText", "testuser@brookes.ac.uk", "password")
     session.add(u1)
     session.commit()
     print("Tables have been created.")
     session.close()
 
 if __name__ == '__main__':
+    create_tables()
     app.run(debug == True)
