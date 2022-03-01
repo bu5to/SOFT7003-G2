@@ -27,26 +27,24 @@
 
                 <div class="col-lg-12 mt-5 mt-lg-0" data-aos="fade-left">
 
-                    <form method="post" role="form" class="php-email-form">
-                        {% for field in form %}
-                            <div class="row">
-                                {% if field.type != "SubmitField" %}
-                                    <div class="col-md-12 form-group">
-                                        <td>{{ field(class_="form-control") }}</td>
-                                    </div>
-                                {% else %}
-                                    <form method="POST">
-                                        <div class="text-center">
-                                            {{ form.hidden_tag() }}
-                                            <button type="submit" name="submit" value="x">{{ field }}</button>
-                                        </div>
-                                    </form>
+                    <form method="post" role="form" action="" class="php-email-form" novalidate>
+                        {{ form.csrf_token }}
 
-                                {% endif %}
-
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <td>{{ form.username(class_="form-control") }}</td>
                             </div>
-
-                        {% endfor %}
+                            <div class="col-md-12 form-group">
+                                <td>{{ form.email(class_="form-control") }}</td>
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <td>{{ form.password(class_="form-control") }}</td>
+                            </div>
+                            <div class="text-center">
+                                {{ form.hidden_tag() }}
+                                <button type="submit" name="submit" value="x">{{ form.submit() }}</button>
+                            </div>
+                        </div>
                     </form>
 
                 </div>

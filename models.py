@@ -5,7 +5,7 @@ from sqlalchemy import create_engine, Column, String, Integer, ForeignKey, Boole
 from sqlalchemy.orm import relationship
 
 class User(Base, UserMixin):
-    __tablename__ = 'username'
+    __tablename__ = 'user'
     id = Column(Integer, primary_key = True)
     username = Column(String(20), nullable = False, unique = True)
     email = Column(String(40), nullable=False, unique=True)

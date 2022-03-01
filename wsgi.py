@@ -1,6 +1,6 @@
 from flask import Flask, render_template, make_response, send_from_directory, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
+from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user,  current_user
 from flask.cli import with_appcontext
 from forms import RegisterForm, LoginForm
 from base import Session, engine, Base
@@ -73,8 +73,9 @@ def sw():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
+        print("Validate on submit")
         if form.data['submit']:
-            print("It works")
+            print("Data on dict")
             user = User.query.filter_by(username=form.username.data).first()
             if user:
                 login_user(user)
