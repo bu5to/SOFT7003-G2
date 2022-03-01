@@ -12,23 +12,86 @@
 {% block content %}
 
 <!-- ======= Services Section ======= -->
-<section id="services" class="services">
-  <div class="container">
-    <div class="section-title" data-aos="zoom-in">
-      <h2>Services</h2>
-      <h3>Our Awesome <span>Services</span></h3>
-      <p>
-        Ut possimus qui ut temporibus culpa velit eveniet modi omnis est
-        adipisci expedita at voluptas atque vitae autem.
-      </p>
-    </div>
-
-    <div class="row">
-      <div class="d-flex align-items-stretch">
-        <canvas id="canvas" width="100vw" height="100vh" style="border:1px solid #000000; margin: auto;"></canvas>
-    </div>
-  </div>
-</section>
+    <section id="services" class="services">
+      <div class="container">
+        <div class="section-title" data-aos="zoom-in">
+          <h2>Training Plans</h2>
+          <h3>Interactive Court<span> Designs</span></h3>
+        </div>
+    
+            <canvas id="canvas"></canvas>
+            <button onClick="clear_canvas()" type="button" class="button">Clear</button>
+    
+    </section>
+    
+    <style>
+      canvas{
+        box-shadow: -3px 2px 9px 6px black;
+        cursor: pointer;
+      }
+    </style>
+    
+    <script>
+      const canvas = document.getElementById("canvas");
+      canvas.width = window.innerWidth - 150;
+      canvas.height = 400;
+    
+      let context = canvas.getContext("2d");
+      let start_background_colour = "white";
+      context.fillStyle = start_background_colour;
+      context.fillRect(0, 0, canvas.width, canvas.height);
+    
+      let draw_color = "black";
+      let draw_width = "2";
+      let is_drawing = false;
+    
+      canvas.addEventListener("touchstart", start, false);
+      canvas.addEventListener("touchmove", draw, false);
+      canvas.addEventListener("mousedown", start, false);
+      canvas.addEventListener("mousemove", draw, false);
+    
+      canvas.addEventListener("touchend", stop, false);
+      canvas.addEventListener("mouseup", stop, false);
+      canvas.addEventListener("mouseout", stop, false);
+    
+      function start(event){
+        is_drawing = true;
+        context.beginPath();
+        context.moveTo(event.clientX - canvas.offsetLeft, 
+                       event.clientY - canvas.offsetTop);
+    
+        event.preventDefault();
+      };
+    
+      function draw(event){
+        if (is_drawing){
+          context.lineTo(event.clientX - canvas.offsetLeft, 
+                         event.clientY - canvas.offsetTop);
+          context.strokeStyle = draw_color;
+          context.lineWidth = draw_width;
+          context.lineCap = "round";
+          context.lineJoin = "round";
+          context.stroke();
+         };
+       };
+    
+      function stop(event){
+        if (is_drawing){
+          context.stroke();
+          context.closePath();
+          is_drawing = false;
+        };
+    
+        event.preventDefault();
+       };
+    
+       function clear_canvas(){
+        context.fillStyle = start_background_colour;
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.clearRect(0, 0, canvas.width, canvas.height);
+       }
+      
+    </script>
 <!-- End Services Section -->
 
 {% endblock %}
