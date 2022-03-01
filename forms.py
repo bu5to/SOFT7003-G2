@@ -5,17 +5,18 @@ from models import User
 
 class RegisterForm(FlaskForm):
     username = StringField(validators = [InputRequired(), Length(min = 4, max = 20)], render_kw={"placeholder": "Username"})
+    name = StringField(validators = [InputRequired(), Length(min = 4, max = 20)], render_kw={"placeholder": "Name and surname"})
     password = PasswordField(validators = [InputRequired(), Length(min = 5, max = 20)], render_kw={"placeholder": "Password"})
  #   role = SelectField(u'Role', choices=[('coach', 'Coach'), ('player', 'Player')])
     email = StringField(validators = [InputRequired(), Length(min = 4, max = 30)], render_kw={"placeholder": "Email"})
     submit = SubmitField("Register")
     def validate_username(self, username):
-        existing_user_username = User.query.filter_by(username=username.data).first()
+        existing_user_username = User.get_user(username)
         if existing_user_username:
             raise ValidationError("That username has already been taken, please choose a different one.")
 
     def validate_email(self, email):
-        existing_user_email = User.query.filter_by(email=email.data).first()
+        existing_user_email = User.get_user_by_email(email)
         if existing_user_email:
             raise ValidationError("An account using that email already exists.")
 #This creates the registry form which can be displayed within the register page.
