@@ -11,6 +11,8 @@ class User(Base, UserMixin):
     name = Column(String(30), nullable = False, unique = True)
     email = Column(String(40), nullable=False, unique=True)
     password = Column(String(256), nullable = False)
+    plans = relationship("Plan")
+    threads = relationship("Thread")
 
     def __init__(self, username, name, email, password):
         self.username = username
@@ -56,4 +58,37 @@ class User(Base, UserMixin):
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
+class Plan(Base):
+    __tablename__ = 'plan'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'), nullable = False)
+    user = relationship("User", back_populates="plans")
+    title = Column(String(30), nullable = False)
+    description = Column(String, nullable = False)
+    image = Column(String, nullable = True)
+
+    def __init__(self, user, title, description, image):
+        self.user = user
+        self.title = title
+        self.description = description
+        self.image = image
+
+class Thread(Base):
+    __tablename__ = 'thread'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'), nullable = False)
+    user = relationship("User", back_populates="threads")
+    title = Column(String(30), nullable = False)
+    description = Column(String, nullable = False)
+    image = Column(String, nullable = True)
+    video = Column(String, nullable=True)
+    tag = Column(String, nullable=True)
+
+    def __init__(self, user, title, description, image, video, tag):
+        self.user = user
+        self.title = title
+        self.description = description
+        self.image = image
+        self.video = video
+        self.tag = tag
 #Creates a SQL table for storing user information
