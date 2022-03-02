@@ -67,8 +67,20 @@
             <ul>
                 <li><a class="nav-link scrollto active" href="{{ url_for('index') }}">Home</a></li>
                 <li><a class="nav-link scrollto" href="{{ url_for('about') }}">Court Planner</a></li>
-                <li><a class="nav-link scrollto" href="{{ url_for('services') }}">Training Plans</a></li>
-                <li><a class="nav-link scrollto " href="{{ url_for('portfolio') }}">Forum</a></li>
+                <li class="dropdown"><a class="nav-link scrollto" href="{{ url_for('trainingplans') }}">Training Plans
+                    <i class="bi bi-chevron-down"></i></a>
+                    <ul>
+                        <li><a href="">Upload</a></li>
+                        <li><a href="">View my plans</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown"><a class="nav-link scrollto " href="{{ url_for('forum') }}">Forum <i
+                        class="bi bi-chevron-down"></i></a>
+                    <ul>
+                        <li><a href="">New thread</a></li>
+                        <li><a href="">View threads</a></li>
+                    </ul>
+                </li>
                 {% if current_user.is_authenticated %}
                     <li class="dropdown"><a href="#"><span>Hello {{ current_user.name }}</span> <i
                             class="bi bi-chevron-down"></i></a>
@@ -80,11 +92,12 @@
                     </li>
                 {% else %}
                     <li class="dropdown"><a href="#"><span>User</span> <i class="bi bi-chevron-down"></i></a>
-                    <ul>
-                        <li><a href="{{ url_for('login') }}">Log in</a></li>
-                        <li><a href="{{ url_for('register') }}">Register</a></li>
+                        <ul>
+                            <li><a href="{{ url_for('login') }}">Log in</a></li>
+                            <li><a href="{{ url_for('register') }}">Register</a></li>
 
-                    </ul>
+                        </ul>
+                    </li>
                 {% endif %}
 
                 <li><a class="nav-link scrollto" href="{{ url_for('contact') }}">Support</a></li>

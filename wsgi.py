@@ -49,14 +49,14 @@ def about():
     return render_template('about.html')
 
 
-@app.route("/services")
-def services():
-    return render_template('services.html')
+@app.route("/trainingplans")
+def trainingplans():
+    return render_template('trainingplans.html')
 
 
-@app.route("/portfolio")
-def portfolio():
-    return render_template('portfolio.html')
+@app.route("/forum")
+def forum():
+    return render_template('forum.html')
 
 
 @app.route("/team")
