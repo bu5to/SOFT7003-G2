@@ -1,4 +1,4 @@
-# SOFT7003
+# SOFT7003 - Sphera
 
 > Jorge El Busto
 > 
@@ -12,16 +12,32 @@
 > Alex McDonough
 > 
 
+> Rohit Rathod
+> 
+
+> Adebayo Aromolaran
+> 
+
 # Pre-requirements
 
 - Python needs to be installed in order to run the software.
 
 [Welcome to Python.org](https://www.python.org/)
 
+# Creating tables
+
+- Note that this part can be skipped if the tables have already been created. This part will be used just in case the indexes of a table get updated.
+- Open the Python IDLE from the project folder and run the following code.
+
+```python
+>> import wsgi
+>> wsgi.create_tables()
+```
+
 # Instructions
 
 <aside>
-⚠️ Make sure that the command line is running from the **project folder**.
+⚠️ Make sure that the command line is running from the project folder.
 
 </aside>
 
