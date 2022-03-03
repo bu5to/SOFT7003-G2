@@ -44,14 +44,14 @@ def index():
         'index.html', user=user)  # now, when entering 127.0.0.0:5000/, the file index.html will pop up in the browser.
 
 
-@app.route("/about")
+@app.route("/courtplanner")
 def about():
-    return render_template('about.html')
+    return render_template('courtplanner.html')
 
 
 @app.route("/trainingplans")
 def trainingplans():
-    return render_template('trainingplans.html')
+    return render_template('about.html')
 
 
 @app.route("/forum")
