@@ -28,13 +28,16 @@
   canvas{
     box-shadow: -3px 2px 9px 6px black;
     cursor: pointer;
+    width: 100%;
+    background: url(../static/img/dragndrop/court.svg);
   }
 </style>
 
 <script>
   const canvas = document.getElementById("canvas");
   canvas.width = window.innerWidth - 150;
-  canvas.height = 400;
+  ratio = 0.52
+  canvas.height = (window.innerWidth - 150) * ratio;
 
   let context = canvas.getContext("2d");
   let start_background_colour = "white";
