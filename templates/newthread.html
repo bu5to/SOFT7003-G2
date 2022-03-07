@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}New thread{% endblock %}
+{% block head %}
+    <script>
+        $(document).ready(function(){
+
+	$("#tags").change(function(){
+		if ( $(this).val() == "newtag" ) {
+			$("#newtagtext").show();
+        }
+        if( $(this).val() != "newtag" ) {
+			$("#newtagtext").hide();
+        }
+
+    });
+
+});
+    </script>
+{% endblock %}
+<!--
+<section id="hero">
+    <div class="hero-container" data-aos="fade-up">
+        <h1>Welcome to Remember</h1>
+        <h2>We are team of talented designers making websites with Bootstrap</h2>
+        <a href="#about" class="btn-get-started scrollto">Get Started</a>
+    </div>
+</section>-->
+
+{% block content %}
+
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+        <div class="container">
+
+            <div class="section-title" data-aos="zoom-in">
+                <h2>New thread</h2>
+                <h3>Start a new <span>thread</span> in our forum</h3>
+                <p>Upload your message along with an image and a video. Note that the image and the video are not
+                    required, but might help your message to be seen in a more visual way.</p>
+            </div>
+
+            <div class="row mt-5">
+
+
+                <div class="col-lg-12 mt-5 mt-lg-0" data-aos="fade-left">
+
+                    <form action="{{ url_for('newthread') }}" method="post" role="form">
+                        <div class="form-group mt-3">
+                            <input type="text" class="form-control" name="title" id="title" placeholder="Title"
+                                   required>
+                        </div>
+                        <div class="form-group mt-3">
+                            <textarea class="form-control" name="description" rows="5" placeholder="Description"
+                                      required></textarea>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <!--<label for="image">Select image</label>-->
+                                <input type="file" name="image" class="form-control" id="image" placeholder="Image">
+                            </div>
+                            <div class="col-md-6 form-group mt-3 mt-md-0">
+                                <input type="text" class="form-control" name="video" id="video"
+                                       placeholder="Video">
+                            </div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <select name="tags" id="tags" class="form-control">
+                                <option value="none" disabled>Choose a tag</option>
+                                <option value="attack">Attack</option>
+                                <option value="defence">Defence</option>
+                                <option value="diet">Diet</option>
+                                <option value="newtag">New tag</option>
+                            </select>
+                        </div>
+                        <div class="form-group mt-3">
+                            <input type="text" class="form-control" name="newtagtext" id="newtagtext"
+                                   placeholder="Write your new tag" style="display: none;">
+                        </div>
+                        <div class="text-center">
+                            <button type="submit">Start thread</button>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section><!-- End Contact Section -->
+
+{% endblock %}

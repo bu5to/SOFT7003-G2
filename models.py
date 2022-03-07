@@ -91,4 +91,20 @@ class Thread(Base):
         self.image = image
         self.video = video
         self.tag = tag
+
+    def getAllTags():
+        sesTags = Session()
+        tags = session.query(Thread.tag).distinct()
+        tags = tags.all()
+        sesTags.close()
+        return tags
+
+    def getAllThreads():
+        sesThreads = Session()
+        threads = session.query(Thread)
+        threads = threads.all()
+        print(threads)
+        sesThreads.close()
+        return threads
+
 #Creates a SQL table for storing user information

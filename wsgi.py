@@ -7,7 +7,12 @@ from base import Session, engine, Base
 from werkzeug.urls import url_parse
 import click
 import sys
-from models import User
+import io
+from io import BytesIO
+from google.cloud import storage
+import shutil
+import os
+from models import User, Thread
 
 app = Flask(__name__)
 app.config[
@@ -21,9 +26,11 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
-
-
 # This allows flask to manage the login process, i.e. loading users according to IDs.
+
+#os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'servicekey_googlecloud.json'
+#storage_client = storage.Client()
+#bucket = storage_client.get_bucket("dataproc-staging-us-central1-956207202528-venq6ohn")
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -56,7 +63,9 @@ def trainingplans():
 
 @app.route("/forum")
 def forum():
-    return render_template('forum.html')
+    threads = Thread.getAllThreads()
+    tags = Thread.getAllTags()
+    return render_template('forum.html', threads=threads, tags=tags)
 
 
 @app.route("/team")
@@ -68,6 +77,25 @@ def team():
 def contact():
     return render_template('contact.html')
 
+@app.route("/newthread", methods=['GET', 'POST'])
+def newthread():
+    if request.method == "POST":
+        title = request.form['title']
+        description = request.form['description']
+        image = request.form['image']
+        video = request.form['video']
+        tag = request.form['tags']
+        if tag == "newtag":
+            tag = request.form['newtagtext']
+        session = Session()
+        user = User.get_user(current_user.username)
+        shutil.copy2('/src/dir/file.ext', '/dst/dir/newname.ext')
+        thread = Thread(user,title,description,image,video,tag)
+        session.add(thread)
+        session.commit()
+        session.close()
+
+    return render_template('newthread.html')
 
 @app.route('/sw.js')
 def sw():
