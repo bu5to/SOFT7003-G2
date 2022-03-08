@@ -11,9 +11,9 @@ class User(Base, UserMixin):
     name = Column(String(30), nullable = False, unique = True)
     email = Column(String(40), nullable=False, unique=True)
     password = Column(String(256), nullable = False)
-    plans = relationship("Plan")
-    threads = relationship("Thread")
-    messages = relationship("Message")
+    plans = relationship("Plan", lazy='joined')
+    threads = relationship("Thread", lazy='joined')
+  #  messages = relationship("Message", lazy='joined')
 
     def __init__(self, username, name, email, password):
         self.username = username
@@ -119,8 +119,9 @@ class Thread(Base):
 class Message(Base):
     __tablename__ = 'message'
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('user.id'), nullable = False)
-    user = relationship("User", back_populates="messages")
+ #   user_id = Column(Integer, ForeignKey('user.id'), nullable = False)
+    name = Column(String, nullable=False)
+#    user = relationship("User", back_populates="messages")
     thread_id = Column(Integer, ForeignKey('thread.id'), nullable=False)
     thread = relationship("Thread", back_populates="messages")
     date = Column(String, nullable=True)
@@ -129,12 +130,11 @@ class Message(Base):
     def get_messages_by_id(thread_id):
         sesMsg = Session()
         messages = sesMsg.query(Message).filter(Message.thread_id == thread_id).all()
-        sesMsg.expunge_all()
-    #    sesMsg.close()
+        sesMsg.close()
         return messages
 
-    def __init__(self, user, thread, date, content):
-        self.user = user
+    def __init__(self, name, thread, date, content):
+        self.name = name
         self.thread = thread
         self.date = date
         self.content = content

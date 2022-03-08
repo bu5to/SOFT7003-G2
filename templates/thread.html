@@ -30,7 +30,7 @@
             {% endif %}
             <hr>
             {% for message in messages %}
-                <h6>Reply from {{ message.user.name }} at {{ message.date }}</h6>
+                <h6>Reply from {{ message.name }} at {{ message.date }}</h6>
                 <p>{{ message.content }}</p>
                 <hr>
             {% endfor %}

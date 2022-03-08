@@ -77,15 +77,16 @@ def thread(thread_id):
     messages = Message.get_messages_by_id(thread_id)
     if request.method == 'POST':
         content = request.form['content']
-        sesMsg = Session()
-        user = User.get_user(current_user.username)
+      #  sesMsg = Session()
+        user = current_user.name
         now = datetime.now()
-        date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
+        date_time = now.strftime("%d/%m/%Y, %H:%M:%S")
         message = Message(user, thread, date_time, content)
-        sesMsg.add(message)
-        sesMsg.commit()
-        sesMsg.expunge_all()
-        sesMsg.close()
+        current_db_sessions = Session.object_session(message)
+        current_db_sessions.add(message)
+        current_db_sessions.commit()
+        current_db_sessions.close()
+
     else:
         return render_template("thread.html", thread = thread, messages = messages)
 
@@ -109,15 +110,15 @@ def newthread():
         tag = request.form['tags']
         if tag == "newtag":
             tag = request.form['newtagtext'] #If a new tag is created, it will pick up the value from the new tag text field instead.
-        session = Session()
+        sesThread = Session()
         user = User.get_user(current_user.username)
         now = datetime.now()
-        date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
+        date_time = now.strftime("%d/%m/%Y, %H:%M:%S")
         thread = Thread(user,title,description,image,video,date_time,tag)
-        session.add(thread)
-        session.commit()
-        session.expunge_all()
-        session.close()
+        current_db_sessions = Session.object_session(thread)
+        current_db_sessions.add(thread)
+        current_db_sessions.commit()
+        current_db_sessions.close()
     return render_template('newthread.html')
 
 @app.route('/sw.js')
