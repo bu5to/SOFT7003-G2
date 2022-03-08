@@ -66,7 +66,7 @@
 
         <nav id="navbar" class="navbar">
             <ul>
-                <li><a class="nav-link scrollto active" href="{{ url_for('index') }}">Home</a></li>
+                <li><a class="nav-link scrollto" href="{{ url_for('index') }}">Home</a></li>
                 <li><a class="nav-link scrollto" href="{{ url_for('about') }}">Court Planner</a></li>
                 <li class="dropdown"><a class="nav-link scrollto" href="{{ url_for('trainingplans') }}">Training Plans
                     <i class="bi bi-chevron-down"></i></a>
@@ -75,11 +75,11 @@
                         <li><a href="">View my plans</a></li>
                     </ul>
                 </li>
-                <li class="dropdown"><a class="nav-link scrollto " href="{{ url_for('forum') }}">Forum <i
+                <li class="dropdown"><a class="nav-link scrollto " href="">Forum <i
                         class="bi bi-chevron-down"></i></a>
                     <ul>
                         <li><a href="{{ url_for('newthread') }}">New thread</a></li>
-                        <li><a href="">View threads</a></li>
+                        <li><a href="{{ url_for('forum') }}">View threads</a></li>
                     </ul>
                 </li>
                 {% if current_user.is_authenticated %}

@@ -540,6 +540,27 @@ section {
   background-size: cover;
   min-height: 400px;
 }
+
+.video-container {
+    overflow: hidden;
+    position: relative;
+    width:100%;
+}
+
+.video-container::after {
+    padding-top: 56.25%;
+    display: block;
+    content: '';
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
 .about .play-btn {
   width: 94px;
   height: 94px;
@@ -1548,12 +1569,12 @@ section {
   font-size: 13px;
 }
 .post-preview > a {
-  color: #212529;
+  color: rgba(15, 15, 15, 0.75);
 }
 .post-preview > a:focus,
 .post-preview > a:hover {
   text-decoration: none;
-  color: #0085a1;
+  color: #d10373;
 }
 .post-preview > a > .post-title {
   font-size: 1.875rem;

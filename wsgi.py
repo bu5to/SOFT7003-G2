@@ -4,15 +4,17 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, log
 from flask.cli import with_appcontext
 from forms import RegisterForm, LoginForm
 from base import Session, engine, Base
+from datetime import datetime
 from werkzeug.urls import url_parse
+from datetime import datetime
 import click
 import sys
-import io
-from io import BytesIO
-from google.cloud import storage
-import shutil
+#import io
+#from io import BytesIO
+#from google.cloud import storage
+#import shutil
 import os
-from models import User, Thread
+from models import User, Thread, Message
 
 app = Flask(__name__)
 app.config[
@@ -67,6 +69,15 @@ def forum():
     tags = Thread.getAllTags()
     return render_template('forum.html', threads=threads, tags=tags)
 
+@app.route('/thread/<int:thread_id>', methods=["GET", "POST"])
+def thread(thread_id):
+    session = Session()
+    query = session.query(Thread)
+    thread = query.filter(Thread.id==thread_id).first()
+    if request.method == 'POST':
+        print("message sent")
+    else:
+        return render_template("thread.html", thread = thread)
 
 @app.route("/team")
 def team():
@@ -84,17 +95,18 @@ def newthread():
         description = request.form['description']
         image = request.form['image']
         video = request.form['video']
+        video = video.replace("watch?v=", "embed/")
         tag = request.form['tags']
         if tag == "newtag":
-            tag = request.form['newtagtext']
+            tag = request.form['newtagtext'] #If a new tag is created, it will pick up the value from the new tag text field instead.
         session = Session()
         user = User.get_user(current_user.username)
-        shutil.copy2('/src/dir/file.ext', '/dst/dir/newname.ext')
-        thread = Thread(user,title,description,image,video,tag)
+        now = datetime.now()
+        date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
+        thread = Thread(user,title,description,image,video,date_time,tag)
         session.add(thread)
         session.commit()
         session.close()
-
     return render_template('newthread.html')
 
 @app.route('/sw.js')

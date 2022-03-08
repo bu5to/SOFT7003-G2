@@ -13,6 +13,7 @@ class User(Base, UserMixin):
     password = Column(String(256), nullable = False)
     plans = relationship("Plan")
     threads = relationship("Thread")
+    messages = relationship("Message")
 
     def __init__(self, username, name, email, password):
         self.username = username
@@ -82,29 +83,50 @@ class Thread(Base):
     description = Column(String, nullable = False)
     image = Column(String, nullable = True)
     video = Column(String, nullable=True)
+    date = Column(String, nullable=True)
     tag = Column(String, nullable=True)
+    messages = relationship("Message")
 
-    def __init__(self, user, title, description, image, video, tag):
+    def __init__(self, user, title, description, image, video, date, tag):
         self.user = user
         self.title = title
         self.description = description
         self.image = image
         self.video = video
+        self.date = date
         self.tag = tag
 
     def getAllTags():
         sesTags = Session()
-        tags = session.query(Thread.tag).distinct()
+        newTags = []
+        tags = sesTags.query(Thread.tag).distinct()
         tags = tags.all()
         sesTags.close()
-        return tags
+        for tag in tags:
+            newTags.append(tag[0])
+        return newTags
 
     def getAllThreads():
         sesThreads = Session()
-        threads = session.query(Thread)
+        threads = sesThreads.query(Thread)
         threads = threads.all()
         print(threads)
-        sesThreads.close()
         return threads
+
+class Message(Base):
+    __tablename__ = 'message'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'), nullable = False)
+    user = relationship("User", back_populates="messages")
+    thread_id = Column(Integer, ForeignKey('thread.id'), nullable=False)
+    thread = relationship("Thread", back_populates="messages")
+    date = Column(String, nullable=True)
+    content = Column(String, nullable = False)
+
+    def __init__(self, user, thread, date, content):
+        self.user = user
+        self.thread = thread
+        self.date = date
+        self.content = content
 
 #Creates a SQL table for storing user information
