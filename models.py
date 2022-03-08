@@ -26,7 +26,7 @@ class User(Base, UserMixin):
         users = sesUsers.query(User)
         users = users.all()
         print(users)
-        sesUsers.close()
+   #     sesUsers.close()
         return users
 
     def get_user(username):
@@ -98,9 +98,11 @@ class Thread(Base):
 
     def getAllTags():
         sesTags = Session()
+        sesTags.expire_on_commit = False
         newTags = []
         tags = sesTags.query(Thread.tag).distinct()
         tags = tags.all()
+        sesTags.expunge_all()
         sesTags.close()
         for tag in tags:
             newTags.append(tag[0])
@@ -108,6 +110,7 @@ class Thread(Base):
 
     def getAllThreads():
         sesThreads = Session()
+        sesThreads.expire_on_commit = False
         threads = sesThreads.query(Thread)
         threads = threads.all()
         print(threads)
@@ -122,6 +125,13 @@ class Message(Base):
     thread = relationship("Thread", back_populates="messages")
     date = Column(String, nullable=True)
     content = Column(String, nullable = False)
+
+    def get_messages_by_id(thread_id):
+        sesMsg = Session()
+        messages = sesMsg.query(Message).filter(Message.thread_id == thread_id).all()
+        sesMsg.expunge_all()
+    #    sesMsg.close()
+        return messages
 
     def __init__(self, user, thread, date, content):
         self.user = user

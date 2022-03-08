@@ -67,6 +67,7 @@
         <nav id="navbar" class="navbar">
             <ul>
                 <li><a class="nav-link scrollto" href="{{ url_for('index') }}">Home</a></li>
+                {% if current_user.is_authenticated %}
                 <li><a class="nav-link scrollto" href="{{ url_for('about') }}">Court Planner</a></li>
                 <li class="dropdown"><a class="nav-link scrollto" href="{{ url_for('trainingplans') }}">Training Plans
                     <i class="bi bi-chevron-down"></i></a>
@@ -82,7 +83,6 @@
                         <li><a href="{{ url_for('forum') }}">View threads</a></li>
                     </ul>
                 </li>
-                {% if current_user.is_authenticated %}
                     <li class="dropdown"><a href="#"><span>Hello {{ current_user.name }}</span> <i
                             class="bi bi-chevron-down"></i></a>
                         <!-- If the user is logged in, we could substitute this by a "Hello, Jorge (user.name)" to make it look more personal. -->

@@ -74,10 +74,20 @@ def thread(thread_id):
     session = Session()
     query = session.query(Thread)
     thread = query.filter(Thread.id==thread_id).first()
+    messages = Message.get_messages_by_id(thread_id)
     if request.method == 'POST':
-        print("message sent")
+        content = request.form['content']
+        sesMsg = Session()
+        user = User.get_user(current_user.username)
+        now = datetime.now()
+        date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
+        message = Message(user, thread, date_time, content)
+        sesMsg.add(message)
+        sesMsg.commit()
+        sesMsg.expunge_all()
+        sesMsg.close()
     else:
-        return render_template("thread.html", thread = thread)
+        return render_template("thread.html", thread = thread, messages = messages)
 
 @app.route("/team")
 def team():
@@ -106,6 +116,7 @@ def newthread():
         thread = Thread(user,title,description,image,video,date_time,tag)
         session.add(thread)
         session.commit()
+        session.expunge_all()
         session.close()
     return render_template('newthread.html')
 
@@ -143,6 +154,7 @@ def register():
                         name=form.name.data)
         session.add(new_user)
         session.commit()
+        session.expunge_all()
         session.close()
         return redirect(url_for('login'))
     return render_template('register.html', form=form)

@@ -4,6 +4,7 @@
     <script>
         $(document).ready(function () {
             $("#replyBtn").click(function () {
+                $("#replyBtn").hide();
                 $("#reply").show();
             });
         });
@@ -27,14 +28,23 @@
                             allowfullscreen></iframe>
                 </div>
             {% endif %}
-            <button id="replyBtn">Reply</button>
-            <form action="{{ url_for('thread', thread_id=thread.id) }}" style="display: none;" method="post" role="form" id="reply">
+            <hr>
+            {% for message in messages %}
+                <h6>Reply from {{ message.user.name }} at {{ message.date }}</h6>
+                <p>{{ message.content }}</p>
+                <hr>
+            {% endfor %}
+            <div class="text-center">
+                <button id="replyBtn">Reply</button>
+            </div>
+            <form action="{{ url_for('thread', thread_id=thread.id) }}" style="display: none;" method="post" role="form"
+                  id="reply">
                 <div class="form-group mt-3">
-                            <textarea class="form-control" name="description" rows="5" placeholder="Message"
+                            <textarea class="form-control" name="content" rows="5" placeholder="Message"
                                       required></textarea>
                 </div>
                 <div class="text-center">
-                    <button type="submit">Reply</button>
+                    <button type="submit">Send message</button>
                 </div>
             </form>
         </div>
