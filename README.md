@@ -51,6 +51,12 @@ python -m pip install -r requirements.txt
 
 ```jsx
 python -m flask run
+
+```
+-for macOS
+```jsx
+python3 -m flask run
+
 ```
 
 - Once the program is running, open your browser and go to [https://127.0.0.1:5000](https://127.0.0.1:5000).
