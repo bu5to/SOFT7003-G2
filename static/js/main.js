@@ -278,4 +278,16 @@
     });
   }
  */
+/*Accordian*/
+  document.querySelectorAll(".accordian-button").forEach (button => {
+    button.addEventListener('click', () =>{
+      const accordianContent = button.nextElementSibling;
+      button.classList.toggle('accordian-button--active');
+      if(button.classList.contains('accordian-button--active')){
+        accordianContent.style.maxHeight = accordianContent.scrollHeight + 'px';
+      }else{
+        accordianContent.style.maxHeight = 0;
+      }
+    });
+  });
 })();

@@ -94,6 +94,9 @@ def thread(thread_id):
 def team():
     return render_template('team.html')
 
+@app.route("/techniques")
+def techniques():
+    return render_template('techniques.html')
 
 @app.route("/contact")
 def contact():
@@ -183,4 +186,4 @@ def create_tables():
 
 if __name__ == '__main__':
     create_tables()
-    app.run(debug == True)
+    app.run(debu == True)

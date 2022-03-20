@@ -1599,3 +1599,37 @@ section {
     font-size: 2.25rem;
   }
 }
+
+/*Common techniques page*/
+.accordian-button{
+  width: 100%;
+  display: block;
+  padding: 15px;
+  margin-bottom: 25px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background-color: #d10373;
+  color: white;
+  transition: background 0.2s;
+}
+
+.accordian-button::after{
+  content: '\25be';
+  float: right;
+  transform: scale(1.5);
+}
+.accordian-button--active{
+  background-color: #ee0585;
+}
+.accordian-button--active::after{
+  content: '\25b4';
+}
+.accordian-content{
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.2s;
+  padding: 0 15px;
+  font-family: "Open sans", sans-serif;
+  background-color: white;
+}
