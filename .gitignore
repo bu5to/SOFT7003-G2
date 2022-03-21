@@ -2,3 +2,4 @@
 *.xml
 *.pyc
 *.DS_Store
+static/img/dragndrop/.DS_Store
