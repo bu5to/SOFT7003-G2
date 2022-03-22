@@ -16,11 +16,11 @@
 <section id="services" class="services">
   <div class="container">
     <div class="section-title" data-aos="zoom-in">
-      <h2>Court Planner</h2>
+      <h2 id="p1" draggable="true">Court Planner</h2>
       <h3>Interactive Court<span> Designs</span></h3>
     </div>
 
-        <canvas id="canvas""></canvas>
+        <canvas id="canvas" id="target" ondrop="drop_handler(event)" ondragover="dragover_handler(event)"></canvas>
         <button onClick="clear_canvas()" type="button" class="button">Clear</button>
 
 </section>
@@ -92,7 +92,8 @@
     context.fillStyle = start_background_colour;
     context.clearRect(0, 0, canvas.width, canvas.height);
     context.clearRect(0, 0, canvas.width, canvas.height);
-   };
+   }
+
   
 </script>
 
