@@ -34,6 +34,7 @@
   }
 </style>
 <script>
+  
   const canvas = document.getElementById("canvas");
   canvas.width = window.innerWidth - 150;
   ratio = 0.52
@@ -56,6 +57,7 @@
   canvas.addEventListener("touchend", stop, false);
   canvas.addEventListener("mouseup", stop, false);
   canvas.addEventListener("mouseout", stop, false);
+
 
   function start(event){
     is_drawing = true;
@@ -100,3 +102,4 @@
 <!-- End Services Section -->
 
 {% endblock %}
+
