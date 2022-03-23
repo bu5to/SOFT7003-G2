@@ -13,16 +13,27 @@
 
 <!-- ======= Services Section ======= -->
 <section id="services" class="services">
-  <p>
-    <label
-      >Drawing tool:
-      <select id="dtool">
-        <option value="line">Line</option>
-        <option value="rect">Rectangle</option>
-        <option value="pencil">Pencil</option>
-      </select></label
-    >
-  </p>
+  <div class="container">
+    <div class="section-title" data-aos="zoom-in">
+      <h2>Court Planner</h2>
+      <h3>Interactive Court<span> Designs</span></h3>
+    </div>
+    <div class="toolbarContainer">
+      <div class="toolbar">
+        <label
+          >Drawing tool:
+          <select id="dtool">
+            <option value="line">Line</option>
+            <option value="rect">Rectangle</option>
+            <option value="pencil">Pencil</option>
+          </select></label
+        >
+        <button onClick="clear_canvas()" type="button" class="button">
+          Clear
+        </button>
+      </div>
+    </div>
+  </div>
 
   <div id="container">
     <canvas id="imageView" width="600" height="600">
@@ -59,6 +70,30 @@
   }
   #dtool {
     margin: 0, auto;
+  }
+
+  .button {
+    box-shadow: inset 0px 39px 0px -24px #d10373;
+    background: linear-gradient(to bottom, #d10373 5%, #d10373 100%);
+    background-color: #d10373;
+    border-radius: 4px;
+    border: 1px solid #ffffff;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 15px;
+    padding: 6px 15px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #d10373;
+    margin: 0, auto;
+  }
+  .button:hover {
+    background: linear-gradient(to bottom, #d10373 5%, #d10373 100%);
+    background-color: #d10373;
+  }
+  .button:active {
+    position: relative;
   }
 </style>
 <script>
