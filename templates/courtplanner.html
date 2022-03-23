@@ -1,5 +1,4 @@
-{% extends "base.html" %} 
-{% block title %}Court planner{% endblock %}
+{% extends "base.html" %} {% block title %}Court planner{% endblock %}
 
 <!--
 <section id="hero">
@@ -14,117 +13,281 @@
 
 <!-- ======= Services Section ======= -->
 <section id="services" class="services">
-  <div class="container">
-    <div class="section-title" data-aos="zoom-in">
-      <h2>Court Planner</h2>
-      <h3>Interactive Court<span> Designs</span></h3>
-    </div>
-        <div class="toolbar">
-          <button onClick="clear_canvas()" type="button" class="button">Clear</button>
-        </div>
-        <canvas id="canvas"></canvas>
+  <p>
+    <label
+      >Drawing tool:
+      <select id="dtool">
+        <option value="line">Line</option>
+        <option value="rect">Rectangle</option>
+        <option value="pencil">Pencil</option>
+      </select></label
+    >
+  </p>
 
+  <div id="container">
+    <canvas id="imageView" width="600" height="600">
+      <p>
+        Unfortunately, your browser is currently unsupported by our web
+        application. We are sorry for the inconvenience. Please use one of the
+        supported browsers listed below, or draw the image you want using an
+        offline tool.
+      </p>
+      <p>
+        Supported browsers: <a href="http://www.opera.com">Opera</a>,
+        <a href="http://www.mozilla.com">Firefox</a>,
+        <a href="https://www.apple.com/safari">Safari</a>, and
+        <a href="http://www.konqueror.org">Konqueror</a>.
+      </p>
+    </canvas>
+  </div>
 </section>
 
 <style>
-  canvas{
-    cursor: pointer;
+  #container {
+    position: relative;
     width: 100%;
+    height: 100%;
+  }
+  #imageView {
+    border: 1px solid #000;
     background: url(../static/img/dragndrop/court.svg);
   }
-  .toolbar{
-    text-align: center;
+  #imageTemp {
+    position: absolute;
+    top: 1px;
+    left: 1px;
   }
-
-  .button {
-	box-shadow:inset 0px 39px 0px -24px #d10373;
-	background:linear-gradient(to bottom, #d10373 5%, #d10373 100%);
-	background-color:#d10373;
-	border-radius:4px;
-	border:1px solid #ffffff;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:15px;
-	padding:6px 15px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #d10373;
-  margin: 0, auto;
-}
-.button:hover {
-	background:linear-gradient(to bottom, #d10373 5%, #d10373 100%);
-	background-color:#d10373;
-}
-.button:active {
-	position:relative;
-	top:1px;
-}
 </style>
 <script>
-  
-  const canvas = document.getElementById("canvas");
-  canvas.width = window.innerWidth - 150;
-  ratio = 0.52
-  canvas.height = (window.innerWidth - 150) * ratio;
+  // Keep everything in anonymous function, called on window load.
+  if (window.addEventListener) {
+    window.addEventListener(
+      "load",
+      function () {
+        var canvas, context, canvaso, contexto;
 
-  let context = canvas.getContext("2d");
-  let start_background_colour = "white";
-  context.fillStyle = start_background_colour;
-  context.fillRect(0, 0, canvas.width, canvas.height);
+        ("lelele");
 
-  let draw_color = "black";
-  let draw_width = "2";
-  let is_drawing = false;
+        // The active tool instance.
+        var tool;
+        var tool_default = "line";
 
-  canvas.addEventListener("touchstart", start, false);
-  canvas.addEventListener("touchmove", draw, false);
-  canvas.addEventListener("mousedown", start, false);
-  canvas.addEventListener("mousemove", draw, false);
+        function init() {
+          // Find the canvas element.
+          canvaso = document.getElementById("imageView");
+          if (!canvaso) {
+            alert("Error: I cannot find the canvas element!");
+            return;
+          }
 
-  canvas.addEventListener("touchend", stop, false);
-  canvas.addEventListener("mouseup", stop, false);
-  canvas.addEventListener("mouseout", stop, false);
+          if (!canvaso.getContext) {
+            alert("Error: no canvas.getContext!");
+            return;
+          }
 
-  clear_canvas()
+          // Get the 2D canvas context.
+          contexto = canvaso.getContext("2d");
+          if (!contexto) {
+            alert("Error: failed to getContext!");
+            return;
+          }
 
-  function start(event){
-    is_drawing = true;
-    context.beginPath();
-    context.moveTo(event.clientX - canvas.offsetLeft, 
-                   event.clientY - canvas.offsetTop);
-  };
+          // Add the temporary canvas.
+          var container = canvaso.parentNode;
+          canvas = document.createElement("canvas");
+          if (!canvas) {
+            alert("Error: I cannot create a new canvas element!");
+            return;
+          }
 
-  function draw(event){
-    if (is_drawing){
-      context.lineTo(event.clientX - canvas.offsetLeft, 
-                     event.clientY - canvas.offsetTop);
-      context.strokeStyle = draw_color;
-      context.lineWidth = draw_width;
-      context.lineCap = "round";
-      context.lineJoin = "round";
-      context.stroke();
-     };
-   };
+          var ww = window.innerWidth;
+          var wh = window.innerHeight;
+          var ratio = 0.52;
+          canvaso.width = ww - 150;
+          canvaso.height = (ww - 150) * ratio;
 
-  function stop(event){
-    if (is_drawing){
-      context.stroke();
-      context.closePath();
-      is_drawing = false;
-    };
-   };
+          canvas.id = "imageTemp";
+          canvas.width = canvaso.width;
+          canvas.height = canvaso.height;
+          container.appendChild(canvas);
 
-   function clear_canvas(){
-    context.fillStyle = start_background_colour;
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    context.clearRect(0, 0, canvas.width, canvas.height);
-   }
+          context = canvas.getContext("2d");
 
-  
+          // Get the tool select input.
+          var tool_select = document.getElementById("dtool");
+          if (!tool_select) {
+            alert("Error: failed to get the dtool element!");
+            return;
+          }
+          tool_select.addEventListener("change", ev_tool_change, false);
+
+          // Activate the default tool.
+          if (tools[tool_default]) {
+            tool = new tools[tool_default]();
+            tool_select.value = tool_default;
+          }
+
+          // Attach the mousedown, mousemove and mouseup event listeners.
+          canvas.addEventListener("mousedown", ev_canvas, false);
+          canvas.addEventListener("mousemove", ev_canvas, false);
+          canvas.addEventListener("mouseup", ev_canvas, false);
+        }
+
+        // The general-purpose event handler. This function just determines the mouse
+        // position relative to the canvas element.
+        function ev_canvas(ev) {
+          if (ev.layerX || ev.layerX == 0) {
+            // Firefox
+            ev._x = ev.layerX;
+            ev._y = ev.layerY;
+          } else if (ev.offsetX || ev.offsetX == 0) {
+            // Opera
+            ev._x = ev.offsetX;
+            ev._y = ev.offsetY;
+          }
+
+          // Call the event handler of the tool.
+          var func = tool[ev.type];
+          if (func) {
+            func(ev);
+          }
+        }
+
+        // The event handler for any changes made to the tool selector.
+        function ev_tool_change(ev) {
+          if (tools[this.value]) {
+            tool = new tools[this.value]();
+          }
+        }
+
+        // This function draws the #imageTemp canvas on top of #imageView, after which
+        // #imageTemp is cleared. This function is called each time when the user
+        // completes a drawing operation.
+        function img_update() {
+          contexto.drawImage(canvas, 0, 0);
+          context.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // This object holds the implementation of each drawing tool.
+        var tools = {};
+
+        // The drawing pencil.
+        tools.pencil = function () {
+          var tool = this;
+          this.started = false;
+
+          // This is called when you start holding down the mouse button.
+          // This starts the pencil drawing.
+          this.mousedown = function (ev) {
+            context.beginPath();
+            context.moveTo(ev._x, ev._y);
+            tool.started = true;
+          };
+
+          // This function is called every time you move the mouse. Obviously, it only
+          // draws if the tool.started state is set to true (when you are holding down
+          // the mouse button).
+          this.mousemove = function (ev) {
+            if (tool.started) {
+              context.lineTo(ev._x, ev._y);
+              context.stroke();
+            }
+          };
+
+          // This is called when you release the mouse button.
+          this.mouseup = function (ev) {
+            if (tool.started) {
+              tool.mousemove(ev);
+              tool.started = false;
+              img_update();
+            }
+          };
+        };
+
+        // The rectangle tool.
+        tools.rect = function () {
+          var tool = this;
+          this.started = false;
+
+          this.mousedown = function (ev) {
+            tool.started = true;
+            tool.x0 = ev._x;
+            tool.y0 = ev._y;
+          };
+
+          this.mousemove = function (ev) {
+            if (!tool.started) {
+              return;
+            }
+
+            var x = Math.min(ev._x, tool.x0),
+              y = Math.min(ev._y, tool.y0),
+              w = Math.abs(ev._x - tool.x0),
+              h = Math.abs(ev._y - tool.y0);
+
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (!w || !h) {
+              return;
+            }
+
+            context.strokeRect(x, y, w, h);
+          };
+
+          this.mouseup = function (ev) {
+            if (tool.started) {
+              tool.mousemove(ev);
+              tool.started = false;
+              img_update();
+            }
+          };
+        };
+
+        // The line tool.
+        tools.line = function () {
+          var tool = this;
+          this.started = false;
+
+          this.mousedown = function (ev) {
+            tool.started = true;
+            tool.x0 = ev._x;
+            tool.y0 = ev._y;
+          };
+
+          this.mousemove = function (ev) {
+            if (!tool.started) {
+              return;
+            }
+
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            context.beginPath();
+            context.moveTo(tool.x0, tool.y0);
+            context.lineTo(ev._x, ev._y);
+            context.stroke();
+            context.closePath();
+          };
+
+          this.mouseup = function (ev) {
+            if (tool.started) {
+              tool.mousemove(ev);
+              tool.started = false;
+              img_update();
+            }
+          };
+          canvas.style =
+            "position: absolute; top: 0px; left: 0px; right: 0px; bottom: 0px; margin: auto;";
+          canvaso.style =
+            "position: absolute; top: 0px; left: 0px; right: 0px; bottom: 0px; margin: auto;";
+        };
+
+        init();
+      },
+      false
+    );
+  }
 </script>
 
 <!-- End Services Section -->
 
 {% endblock %}
-
