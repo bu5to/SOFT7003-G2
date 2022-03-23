@@ -174,11 +174,11 @@ def logout():
 # @click.command()
 # @with_appcontext
 def create_tables():
-    Base.metadata.drop_all(bind=engine, tables=[User.__table__])
+    #Base.metadata.drop_all(bind=engine, tables=[User.__table__])
     Base.metadata.create_all(engine)
     session = Session()
-    u1 = User("19179422", "Jorge El Busto", "19179422@brookes.ac.uk", "password")
-    session.add(u1)
+    #u1 = User("19179422", "Jorge El Busto", "19179422@brookes.ac.uk", "password")
+    #session.add(u1)
     session.commit()
     print("Tables have been created.")
     session.close()
@@ -186,4 +186,4 @@ def create_tables():
 
 if __name__ == '__main__':
     create_tables()
-    app.run(debu == True)
+    app.run()
