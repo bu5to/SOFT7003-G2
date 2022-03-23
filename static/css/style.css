@@ -1615,7 +1615,6 @@ section {
   color: white;
   transition: background 0.2s;
 }
-
 .tech-accordion-button::after{
   content: '\25be';
   float: right;
@@ -1636,4 +1635,12 @@ section {
   background-color: white;
   display: none;
   overflow: auto;
+}
+.inner-accordion{
+  background-color: white;
+  color: #d10373;
+  border: solid #d10373 2px;
+}
+.inner-accordion:hover{
+  background-color:#f4f4f4;
 }
