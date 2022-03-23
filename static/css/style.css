@@ -1603,6 +1603,9 @@ section {
 }
 
 /*Common techniques page*/
+.tech-containers{
+  margin-bottom: 200px;
+}
 .tech-accordion-button{
   width: 100%;
   display: block;
@@ -1631,6 +1634,7 @@ section {
 }
 .tech-accordion-content{
   padding: 0 15px;
+  margin-bottom: 30px;
   font-family: "Open sans", sans-serif;
   background-color: white;
   display: none;
