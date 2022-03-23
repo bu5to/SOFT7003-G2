@@ -28,6 +28,7 @@
         <button type="button" class="button" id="clear" value="Clear">
           Clear
         </button>
+        <input type="color" id="color" name="color" value="#ff0000" />
       </div>
     </div>
   </div>
@@ -66,9 +67,7 @@
     left: 1px;
   }
   #dtool {
-    margin-right: auto;
-    margin-right: 3%;
-    margin-top: 10px;
+    margin: 0.4rem;
   }
 
   .button {
@@ -85,8 +84,7 @@
     padding: 6px 15px;
     text-decoration: none;
     text-shadow: 0px 1px 0px #d10373;
-    margin: auto;
-    margin-left: 3%;
+    margin: 0, 0.4rem, 0.4rem, 0.4rem;
   }
   .button:hover {
     background: linear-gradient(to bottom, #d10373 5%, #d10373 100%);
@@ -109,6 +107,10 @@
     border-width: thin;
     text-align: center;
   }
+  #color {
+    display: inline-block;
+    margin: 0.4rem;
+  }
 </style>
 <script>
   // Keep everything in anonymous function, called on window load.
@@ -123,6 +125,7 @@
         // The active tool instance.
         var tool;
         var tool_default = "line";
+        var colorInput = document.getElementById("color");
 
         function init() {
           // Find the canvas element.
@@ -243,6 +246,7 @@
             if (tool.started) {
               context.lineTo(ev._x, ev._y);
               context.stroke();
+              context.strokeStyle = colorInput.value;
             }
           };
 
@@ -265,6 +269,7 @@
             tool.started = true;
             tool.x0 = ev._x;
             tool.y0 = ev._y;
+            context.strokeStyle = colorInput.value;
           };
 
           this.mousemove = function (ev) {
@@ -304,6 +309,7 @@
             tool.started = true;
             tool.x0 = ev._x;
             tool.y0 = ev._y;
+            context.strokeStyle = colorInput.value;
           };
 
           this.mousemove = function (ev) {
