@@ -11,8 +11,8 @@ class User(Base, UserMixin):
     name = Column(String(30), nullable = False, unique = True)
     email = Column(String(40), nullable=False, unique=True)
     password = Column(String(256), nullable = False)
-    plans = relationship("Plan", lazy='joined')
-    threads = relationship("Thread", lazy='joined')
+    plans = relationship("Plan", lazy='subquery')
+    threads = relationship("Thread", lazy='subquery')
   #  messages = relationship("Message", lazy='joined')
 
     def __init__(self, username, name, email, password):
