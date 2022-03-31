@@ -111,6 +111,7 @@ def contact():
 def newthread():
     if request.method == "POST":
         title = request.form['title']
+        titleStr = title.replace(" ", "").lower()
         description = request.form['description']
         video = request.form['video']
         video = video.replace("watch?v=", "embed/")
@@ -121,7 +122,7 @@ def newthread():
         if file.filename == '':
             print("No selected file")
         if file:
-            filename = secure_filename(file.filename)
+            filename = secure_filename(titleStr + ".png")
             file.save(app.config['UPLOAD_FOLDER'] + filename)
             dst = filename
         else:
