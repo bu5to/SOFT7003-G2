@@ -114,7 +114,7 @@ def newthread():
         titleStr = title.replace(" ", "").lower()
         description = request.form['description']
         video = request.form['video']
-        video = video.replace("watch?v=", "embed/")
+        video = Thread.convertToEmbedded(video)
         if 'file' not in request.files:
             print('No file')
         file = request.files.get('file')

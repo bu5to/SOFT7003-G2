@@ -116,6 +116,10 @@ class Thread(Base):
         print(threads)
         return threads
 
+    def convertToEmbedded(video):
+        video = video.replace("watch?v=", "embed/")
+        return video
+
 class Message(Base):
     __tablename__ = 'message'
     id = Column(Integer, primary_key=True)

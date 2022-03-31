@@ -1,5 +1,18 @@
 {% extends "base.html" %} {% block title %}Court planner{% endblock %}
 <!--
+ANOTHER ATTEMPT
+<script type="text/javascript">
+window.onload = function(){
+    document.getElementById("btn").onclick = function () {myFunction()};
+    function myFunction(){
+        var c = document.getElementById('imageView');
+        var t = c.getContext('2d');
+        window.open('', document.getElementById('imageView').toDataURL());
+    }
+}
+</script>
+-->
+<!--
     UNCOMMENT THIS IF YOU WANT TO KEEP TRYING SAVING IMAGES
     <script src="/static/js/fabric.min.js">
         $("#imageView > input").click(function () {
@@ -57,7 +70,7 @@
             <div class="section-title" data-aos="zoom-in">
                 <h2>Court Planner</h2>
                 <h3>Interactive Court<span> Designs</span></h3>
-               <!-- <button id="btn" class="btn">Save your court</button> -->
+                <!--<button id="btn" class="btn">Save your court</button> -->
             </div>
 
             <div class="toolbarContainer">
