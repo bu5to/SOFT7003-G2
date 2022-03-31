@@ -12,7 +12,6 @@
 
 {% block content %}
 
-
     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact">
         <div class="container">
@@ -44,6 +43,13 @@
                                     <span style="color: #d10373;">{{ error }}</span>
                                 {% endfor %}
                             </div>
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for msg in messages %}
+                                <p style="text-align: center"><b>{{ msg }}</b></p>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
                             <div class="text-center">
                                 {{ form.hidden_tag() }}
                                 {{ form.submit() }}

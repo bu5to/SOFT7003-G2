@@ -1,4 +1,4 @@
-from flask import Flask, render_template, make_response, send_from_directory, url_for, redirect, request
+from flask import Flask, render_template, make_response, send_from_directory, url_for, redirect, request, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask.cli import with_appcontext
@@ -163,6 +163,8 @@ def login():
         if user is not None and user.check_password(form.password.data):
             login_user(user)
             return redirect(url_for('index'))
+        else:
+            flash(u'Invalid user or password.', 'error')
     return render_template('login.html', form=form)
 
 
