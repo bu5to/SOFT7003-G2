@@ -21,6 +21,11 @@
             <div class="col-lg-12 d-flex justify-content-center" data-aos="fade-up">
                 <p style="text-align: justify;">{{ thread.description }}</p>
             </div>
+            {% if thread.image != "" %}
+            <div>
+            <p style="text-align: center;"><img src="{{ url_for('static', filename='img/' + thread.image) }}" width="80%"></p>
+            </div>
+        {% endif %}
             {% if thread.video != "" %}
                 <div class="video-container">
                     <iframe src="{{ thread.video }}" frameborder="0"

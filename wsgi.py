@@ -6,9 +6,13 @@ from forms import RegisterForm, LoginForm
 from base import Session, engine, Base
 from datetime import datetime
 from werkzeug.urls import url_parse
+from werkzeug.utils import secure_filename
 from datetime import datetime
 import click
+import shutil
 import sys
+import os
+
 #import io
 #from io import BytesIO
 #from google.cloud import storage
@@ -22,6 +26,7 @@ app.config[
 # Edit to connect to SQL database
 app.config['SECRET_KEY'] = 'thisisasecretkey'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['UPLOAD_FOLDER'] = 'static/img/'
 
 # We need to produce an actual secret key, min 30 random characters, min 256 bits.
 db = SQLAlchemy(app)
@@ -107,17 +112,28 @@ def newthread():
     if request.method == "POST":
         title = request.form['title']
         description = request.form['description']
-        image = request.form['image']
         video = request.form['video']
         video = video.replace("watch?v=", "embed/")
+        if 'file' not in request.files:
+            print('No file')
+        file = request.files.get('file')
+        print(file)
+        if file.filename == '':
+            print("No selected file")
+        if file:
+            filename = secure_filename(file.filename)
+            file.save(app.config['UPLOAD_FOLDER'] + filename)
+            dst = filename
+        else:
+            dst = ""
         tag = request.form['tags']
         if tag == "newtag":
             tag = request.form['newtagtext'] #If a new tag is created, it will pick up the value from the new tag text field instead.
-        sesThread = Session()
+        #sesThread = Session()
         user = User.get_user(current_user.username)
         now = datetime.now()
         date_time = now.strftime("%d/%m/%Y, %H:%M:%S")
-        thread = Thread(user,title,description,image,video,date_time,tag)
+        thread = Thread(user,title,description,dst,video,date_time,tag)
         current_db_sessions = Session.object_session(thread)
         current_db_sessions.add(thread)
         current_db_sessions.commit()
