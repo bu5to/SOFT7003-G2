@@ -28,17 +28,12 @@ app.config['SECRET_KEY'] = 'thisisasecretkey'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'static/img/'
 
-# We need to produce an actual secret key, min 30 random characters, min 256 bits.
 db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
-# This allows flask to manage the login process, i.e. loading users according to IDs.
 
-#os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'servicekey_googlecloud.json'
-#storage_client = storage.Client()
-#bucket = storage_client.get_bucket("dataproc-staging-us-central1-956207202528-venq6ohn")
-
+#Implementing LoginManager in Flask
 @login_manager.user_loader
 def load_user(user_id):
     users = User.get_users()
@@ -48,6 +43,7 @@ def load_user(user_id):
     return None
 
 
+#This is the main website.
 @app.route("/")
 def index():
     if current_user.is_authenticated:
@@ -57,23 +53,26 @@ def index():
     return render_template(
         'index.html', user=user)  # now, when entering 127.0.0.0:5000/, the file index.html will pop up in the browser.
 
-
+#This URL belongs to the court planner, where tactics can be drawn.
 @app.route("/courtplanner")
 def about():
     return render_template('courtplanner.html')
 
-
+#Training plans.
 @app.route("/trainingplans")
 def trainingplans():
     return render_template('about.html')
 
-
+#Forum.
 @app.route("/forum")
 def forum():
     threads = Thread.getAllThreads()
     tags = Thread.getAllTags()
     return render_template('forum.html', threads=threads, tags=tags)
 
+#This is a dynamic URL that will lead to a thread, according to its ID.
+#If the request is POST, it means that someone is clicking on the "Reply" button.
+#Therefore, the comment will be added.
 @app.route('/thread/<int:thread_id>', methods=["GET", "POST"])
 def thread(thread_id):
     session = Session()
@@ -99,6 +98,7 @@ def thread(thread_id):
 def team():
     return render_template('team.html')
 
+#Common drills and techniques.
 @app.route("/techniques")
 def techniques():
     return render_template('techniques.html')
@@ -107,14 +107,17 @@ def techniques():
 def contact():
     return render_template('contact.html')
 
+#URL to post new threads to the forum.
 @app.route("/newthread", methods=['GET', 'POST'])
 def newthread():
     if request.method == "POST":
+        #The attributes from the form are picked up and a new thread is added to the database.
         title = request.form['title']
         titleStr = title.replace(" ", "").lower()
         description = request.form['description']
         video = request.form['video']
         video = Thread.convertToEmbedded(video)
+        #Here, the file retrieved from the file chooser is copied to the static folder of the project.
         if 'file' not in request.files:
             print('No file')
         file = request.files.get('file')
@@ -145,22 +148,21 @@ def newthread():
 def sw():
     response = make_response(
         send_from_directory('static', path='sw.js'))
-    # change the content header file. Can also omit; flask will handle correctly.
+    #Implementing the service worker in JavaScript.
     response.headers['Content-Type'] = 'application/javascript'
     return response
 
 
-# These URLs above will be later on substituted by the sections specified
-# in the document.
-
+#Login method.
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if current_user.is_authenticated:
+    if current_user.is_authenticated: #This method is implemented by the Flask library itself.
         return redirect('index.html')
     form = LoginForm()
     if form.validate_on_submit():
         user = User.get_user(form.username.data)
-        if user is not None and user.check_password(form.password.data):
+        if user is not None and user.check_password(form.password.data): #The encrypted password is checked.
+            #Note that the password is not saved as raw text in the database. It gets encrypted before being stored.
             login_user(user)
             return redirect(url_for('index'))
         else:
@@ -182,7 +184,7 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
-
+#Method to log out.
 @app.route('/logout', methods=['GET', 'POST'])
 @login_required
 def logout():
@@ -190,17 +192,11 @@ def logout():
     return redirect(url_for('login'))
 
 
-# @click.command()
-# @with_appcontext
+# Method to create the tables in the PostgreSQL database with the SQLAlchemy library.
 def create_tables():
     #Base.metadata.drop_all(bind=engine, tables=[User.__table__])
     Base.metadata.create_all(engine)
-    session = Session()
-    #u1 = User("19179422", "Jorge El Busto", "19179422@brookes.ac.uk", "password")
-    #session.add(u1)
-    session.commit()
     print("Tables have been created.")
-    session.close()
 
 
 if __name__ == '__main__':

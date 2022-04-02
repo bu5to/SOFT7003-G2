@@ -21,15 +21,14 @@ class User(Base, UserMixin):
         self.email = email
         self.password = generate_password_hash(password)
 
-    def get_users():
+    def get_users(): #An array of the registered users is retrieved in this method.
         sesUsers = Session()
         users = sesUsers.query(User)
         users = users.all()
         print(users)
-   #     sesUsers.close()
         return users
 
-    def get_user(username):
+    def get_user(username): #In these methods, the data of a user is retrieved given different parameters.
         users = User.get_users()
         for user in users:
             if user.username == username:
@@ -50,10 +49,10 @@ class User(Base, UserMixin):
                 return user
         return None
 
-    def set_password(self, password):
+    def set_password(self, password): #A password hash is generated with SHA256 method in order to respect the privacy
         self.password = generate_password_hash(password)
 
-    def check_password(self, password):
+    def check_password(self, password): #The hash is checked.
         return check_password_hash(self.password, password)
 
     def __repr__(self):
@@ -97,6 +96,7 @@ class Thread(Base):
         self.tag = tag
 
     def getAllTags():
+        #An array with the tags that will be displayed in the front-end, in the "view threads" section, is retrieved from the DB.
         sesTags = Session()
         sesTags.expire_on_commit = False
         newTags = []
@@ -109,6 +109,7 @@ class Thread(Base):
         return newTags
 
     def getAllThreads():
+        #An array with the threads is retrieved from the database.
         sesThreads = Session()
         sesThreads.expire_on_commit = False
         threads = sesThreads.query(Thread)
@@ -117,6 +118,7 @@ class Thread(Base):
         return threads
 
     def convertToEmbedded(video):
+        #The URL of a standard YouTube video is converted to the URL of an embedded YouTube video.
         video = video.replace("watch?v=", "embed/")
         return video
 
@@ -130,7 +132,7 @@ class Message(Base):
     thread = relationship("Thread", back_populates="messages")
     date = Column(String, nullable=True)
     content = Column(String, nullable = False)
-
+    #When a thread is accessed in the forum, all the comments made in that thread are retrieved as an array.
     def get_messages_by_id(thread_id):
         sesMsg = Session()
         messages = sesMsg.query(Message).filter(Message.thread_id == thread_id).all()
