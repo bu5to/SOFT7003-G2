@@ -78,6 +78,7 @@ window.onload = function(){
           <option value="line">Line</option>
           <option value="rect">Rectangle</option>
           <option value="pencil">Pencil</option>
+          <option value="eraser">Eraser</option>
         </select>
         <button
           type="button"
@@ -317,6 +318,42 @@ window.onload = function(){
               context.lineTo(ev._x, ev._y);
               context.stroke();
               context.strokeStyle = colorInput.value;
+              context.lineWidth = 1;
+            }
+          };
+
+          // This is called when you release the mouse button.
+          this.mouseup = function (ev) {
+            if (tool.started) {
+              tool.mousemove(ev);
+              tool.started = false;
+              img_update();
+            }
+          };
+        };
+
+        // The eraser tool.
+        tools.eraser = function () {
+          var tool = this;
+          this.started = false;
+
+          // This is called when you start holding down the mouse button.
+          // This starts the pencil drawing.
+          this.mousedown = function (ev) {
+            context.beginPath();
+            context.moveTo(ev._x, ev._y);
+            tool.started = true;
+          };
+
+          // This function is called every time you move the mouse. Obviously, it only
+          // draws if the tool.started state is set to true (when you are holding down
+          // the mouse button).
+          this.mousemove = function (ev) {
+            if (tool.started) {
+              context.lineTo(ev._x, ev._y);
+              context.stroke();
+              context.strokeStyle = "#f3f3f3";
+              context.lineWidth = 10;
             }
           };
 
@@ -342,6 +379,7 @@ window.onload = function(){
               tool.x0 = ev._x;
               tool.y0 = ev._y;
               context.strokeStyle = colorInput.value;
+              context.lineWidth = 1;
               count++;
             } else {
               alert("Exceeded maximum number of players.");
@@ -386,6 +424,7 @@ window.onload = function(){
             tool.x0 = ev._x;
             tool.y0 = ev._y;
             context.strokeStyle = colorInput.value;
+            context.lineWidth = 1;
           };
 
           this.mousemove = function (ev) {
