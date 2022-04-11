@@ -1604,7 +1604,7 @@ section {
 
 /*Common techniques page*/
 .tech-containers{
-  margin-bottom: 200px;
+  margin-bottom: 100px;
 }
 .tech-accordion-button{
   width: 100%;
@@ -1635,10 +1635,13 @@ section {
 .tech-accordion-content{
   padding: 0 15px;
   margin-bottom: 30px;
-  font-family: "Open sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   background-color: white;
   display: none;
   overflow: auto;
+}
+.tech-accordion-content h4{
+  color: #d10373;
 }
 .inner-accordion{
   background-color: white;
@@ -1650,4 +1653,7 @@ section {
 }
 #tech-head{
   color: #d10373;
+}
+.technique-video{
+  border: solid black 1px;
 }
