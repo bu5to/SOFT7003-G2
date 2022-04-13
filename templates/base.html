@@ -124,7 +124,23 @@
 
             <div class="row  justify-content-center">
                 <div class="col-lg-6">
-                    <h3>To long bomb or not to long bomb?</h3>
+                    <script>
+                    let x = Math.floor(Math.random() * 4);
+                    switch (x) {
+                        case 0:
+                        document.write("<h3>To long bomb or not to long bomb?</h3>");
+                        break;
+                        case 2:
+                        document.write("<h3>Here if you need.</h3>");
+                        break;
+                        case 3:
+                        document.write("<h3>Keep calm and play Netball.</h3>");
+                        break;
+                        default:
+                        document.write("<h3>To long bomb or not to long bomb?</h3>");
+                        break;
+                    }    
+                    </script>
                     <p>Sphera is a Netball app that enables you to plan your games, improve your team, and connect with
                         other Netball coaches.</p>
                 </div>
