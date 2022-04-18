@@ -117,6 +117,13 @@ class Thread(Base):
         print(threads)
         return threads
 
+    def getThreadById(id):
+        threads = Thread.getAllThreads()
+        for thread in threads:
+            if thread.id == id:
+                return thread
+        return None
+
     def convertToEmbedded(video):
         #The URL of a standard YouTube video is converted to the URL of an embedded YouTube video.
         video = video.replace("watch?v=", "embed/")

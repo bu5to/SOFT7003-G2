@@ -20,14 +20,17 @@ import os
 import os
 from models import User, Thread, Message
 
-app = Flask(__name__)
-app.config[
-    'SQLALCHEMY_DATABASE_URI'] = 'postgres://jiyerqtkdtzmiq:b0b8a7677c2904fe4e37412e1452190cc4368512c9ad0542071835b7ac713ec3@ec2-54-220-243-77.eu-west-1.compute.amazonaws.com:5432/dbh08b84org3rp'
-# Edit to connect to SQL database
-app.config['SECRET_KEY'] = 'thisisasecretkey'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['UPLOAD_FOLDER'] = 'static/img/'
+def create_app():
+    app = Flask(__name__)
+    app.config[
+        'SQLALCHEMY_DATABASE_URI'] = 'postgres://jiyerqtkdtzmiq:b0b8a7677c2904fe4e37412e1452190cc4368512c9ad0542071835b7ac713ec3@ec2-54-220-243-77.eu-west-1.compute.amazonaws.com:5432/dbh08b84org3rp'
+    # Edit to connect to SQL database
+    app.config['SECRET_KEY'] = 'thisisasecretkey'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['UPLOAD_FOLDER'] = 'static/img/'
+    return app
 
+app = create_app()
 db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
