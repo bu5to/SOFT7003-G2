@@ -4,7 +4,7 @@ from contextlib import contextmanager
 import json
 import os
 from models import Thread,Message,User,Plan
-import requests 
+import requests
 from flask import url_for, Flask
 
 @pytest.fixture
