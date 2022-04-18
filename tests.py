@@ -4,7 +4,7 @@ from contextlib import contextmanager
 import json
 import os
 from models import Thread,Message,User,Plan
-import requests #Cambiar los gets y los posts
+import requests 
 from flask import url_for, Flask
 
 @pytest.fixture
@@ -18,8 +18,10 @@ def test_login(client):
         when I start the application
         there is a log in page then I am able to enter my log in details.
     '''
+    strings = [b'input class="form-control" id="username"', b'input class="form-control" id="password"']
     response = client.get("/login")
-    assert b"login" in response.data
+    for string in strings:
+        assert string in response.data
 
 def test_access(client):
     '''
@@ -27,7 +29,6 @@ def test_access(client):
     when I access the application from my browser,
     then it works without issue.
     '''
-   # client = create_app().test_client()
     response = client.get("/")
     assert (response.status_code == 200)
 
@@ -37,32 +38,33 @@ def test_sharingDiagram(client):
     when other coaches access the forum entry,
     then they can see the diagram along with the text.
     '''
-    client = create_app().test_client()
-    thread = Thread.getThreadById(3)
+    thread = Thread.getThreadById(4)
     response = client.get("/thread/" + str(thread.id))
     imageName = thread.title.replace(" ", "").lower()
-    assert (response.status_code == 200 and imageName in response)
+    imageName = bytes(imageName,"utf-8")
+    assert (response.status_code == 200 and imageName in response.data)
 
-def test_register():
+def test_register(client):
     '''
     AC-NB-10.0: Given that I want to register an account,
     when I access the application,
     there is a register account page, then I can securely create an account using my chosen email and password.
     '''
-    client = create_app().test_client()
+    strings = [b'input class="form-control" id="email"', b'input class="form-control" id="password"']
     response = client.get("/register")
-    assert b"register.html" in response.data
+    for string in strings:
+        assert string in response.data
 
-def testTagCategories():
+def testTagCategories(client):
     '''
     AC-NB-17.1: Given that I want to easily find the videos I intend to show,
     when I enter the videos page,
     then the videos are clearly named and separated into categories.
     '''
-    client = create_app().test_client()
     response = client.get("/forum")
     tags = Thread.getAllTags()
     for tag in tags:
+        tag = bytes(tag, 'utf-8')
         assert tag in response.data
 
 def test_parseEmbeddedVideos():
