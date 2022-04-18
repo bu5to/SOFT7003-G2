@@ -1,4 +1,4 @@
-var cacheName = 'NetBallApp';
+var cacheName = 'Sphera';
 var filesToCache = [
   './static/css/style.css'
 ];

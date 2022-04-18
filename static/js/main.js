@@ -259,7 +259,7 @@
       mirror: false,
     });
   });
-/*
+
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", function () {
       navigator.serviceWorker.register("/sw.js", { scope: "/" }).then(
@@ -277,7 +277,6 @@
       );
     });
   }
- */
 /*Accordian*/
   document.querySelectorAll(".tech-accordion-button").forEach (button => {
     button.addEventListener('click', () =>{

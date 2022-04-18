@@ -1,6 +1,6 @@
 {
-  "name": "NetBallApp",
-  "short_name": "NetBallApp",
+  "name": "Sphera",
+  "short_name": "Sphera",
   "icons": [{
     "src": "/static/icon/favicon.png",
       "sizes": "64x64",
