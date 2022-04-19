@@ -1,12 +1,13 @@
 import pytest
 from wsgi import create_app, app
-from contextlib import contextmanager
 from models import Thread
+
 
 @pytest.fixture
 def client():
     client = app.test_client()
     return client
+
 
 def test_login(client):
     '''
@@ -19,6 +20,7 @@ def test_login(client):
     for string in strings:
         assert string in response.data
 
+
 def test_access(client):
     '''
     AC-NB-02.0: Given that I want to access the application,
@@ -27,6 +29,7 @@ def test_access(client):
     '''
     response = client.get("/")
     assert (response.status_code == 200)
+
 
 def test_sharingDiagram(client):
     '''
@@ -37,8 +40,9 @@ def test_sharingDiagram(client):
     thread = Thread.getThreadById(4)
     response = client.get("/thread/" + str(thread.id))
     imageName = thread.title.replace(" ", "").lower()
-    imageName = bytes(imageName,"utf-8")
+    imageName = bytes(imageName, "utf-8")
     assert (response.status_code == 200 and imageName in response.data)
+
 
 def test_register(client):
     '''
@@ -50,6 +54,7 @@ def test_register(client):
     response = client.get("/register")
     for string in strings:
         assert string in response.data
+
 
 def testTagCategories(client):
     '''
@@ -63,17 +68,18 @@ def testTagCategories(client):
         tag = bytes(tag, 'utf-8')
         assert tag in response.data
 
+
 def test_parseEmbeddedVideos():
     '''
     AC-NB-25.0: Given that I want to upload a video to the forum,
     when I enter the YouTube URL,
     the embedded video is displayed accordingly in the thread.
     '''
-    client = create_app().test_client()
     oldVideo = "https://www.youtube.com/watch?v=aBuxsRnU50A"
     newVideo = Thread.convertToEmbedded(oldVideo)
     embeddedVid = '<iframe width="560" height="315" src="https://www.youtube.com/embed/aBuxsRnU50A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
     assert newVideo in embeddedVid
+
 
 if __name__ == '__main__':
     pytest.main()

@@ -5,7 +5,6 @@ from forms import RegisterForm, LoginForm
 from base import Session, engine, Base
 from datetime import datetime
 from werkzeug.utils import secure_filename
-import os
 from models import User, Thread, Message
 
 

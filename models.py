@@ -1,7 +1,7 @@
 from base import Base, Session
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from sqlalchemy import create_engine, Column, String, Integer, ForeignKey, Boolean
+from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 
 
@@ -67,7 +67,8 @@ class User(Base, UserMixin):
                 return user
         return None
 
-    def set_password(self, password):  # A password hash is generated with SHA256 method in order to respect the privacy
+    def set_password(self, password):
+        # A password hash is generated with SHA256 method in order to respect the privacy
         self.password = generate_password_hash(password)
 
     def check_password(self, password):  # The hash is checked.
@@ -117,7 +118,8 @@ class Thread(Base):
 
     def getAllTags():
         '''
-        An array with the tags that will be displayed in the front-end, in the "view threads" section, is retrieved from the DB.
+        An array with the tags that will be displayed in the front-end,
+        in the "view threads" section, is retrieved from the DB.
         :return: the array with the tags.
         '''
         sesTags = Session()
@@ -171,7 +173,8 @@ class Message(Base):
 
     def get_messages_by_id(thread_id):
         '''
-        When a thread is accessed in the forum, all the comments made in that thread are retrieved as an array.
+        When a thread is accessed in the forum,
+        all the comments made in that thread are retrieved as an array.
         :return: The array with the message.
         '''
         sesMsg = Session()
