@@ -1,5 +1,5 @@
 import pytest
-from wsgi import create_app, app
+from wsgi import app
 from models import Thread
 
 
