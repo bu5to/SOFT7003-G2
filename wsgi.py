@@ -12,12 +12,6 @@ import click
 import shutil
 import sys
 import os
-
-#import io
-#from io import BytesIO
-#from google.cloud import storage
-#import shutil
-import os
 from models import User, Thread, Message
 
 def create_app():
