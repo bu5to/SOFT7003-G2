@@ -1,11 +1,7 @@
 import pytest
 from wsgi import create_app, app
 from contextlib import contextmanager
-import json
-import os
-from models import Thread,Message,User,Plan
-import requests
-from flask import url_for, Flask
+from models import Thread
 
 @pytest.fixture
 def client():

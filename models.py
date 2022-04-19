@@ -169,7 +169,6 @@ class Message(Base):
     date = Column(String, nullable=True)
     content = Column(String, nullable=False)
 
-
     def get_messages_by_id(thread_id):
         '''
         When a thread is accessed in the forum, all the comments made in that thread are retrieved as an array.
@@ -185,4 +184,3 @@ class Message(Base):
         self.thread = thread
         self.date = date
         self.content = content
-

@@ -1,18 +1,13 @@
 from flask import Flask, render_template, make_response, send_from_directory, url_for, redirect, request, flash
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
-from flask.cli import with_appcontext
+from flask_login import login_user, LoginManager, login_required, logout_user, current_user
 from forms import RegisterForm, LoginForm
 from base import Session, engine, Base
 from datetime import datetime
-from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
-from datetime import datetime
-import click
-import shutil
-import sys
 import os
 from models import User, Thread, Message
+
 
 def create_app():
     '''
@@ -29,13 +24,14 @@ def create_app():
     app.config['UPLOAD_FOLDER'] = 'static/img/'
     return app
 
+
 app = create_app()
 db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
-#Implementing LoginManager in Flask
+
 @login_manager.user_loader
 def load_user(user_id):
     '''
@@ -65,6 +61,7 @@ def index():
     return render_template(
         'index.html', user=user)
 
+
 @app.route("/courtplanner")
 def about():
     '''
@@ -73,6 +70,7 @@ def about():
     '''
     return render_template('courtplanner.html')
 
+
 @app.route("/trainingplans")
 def trainingplans():
     '''
@@ -80,6 +78,7 @@ def trainingplans():
     :return: The training plans page.
     '''
     return render_template('about.html')
+
 
 @app.route("/forum")
 def forum():
@@ -104,11 +103,10 @@ def thread(thread_id):
     '''
     session = Session()
     query = session.query(Thread)
-    thread = query.filter(Thread.id==thread_id).first()
+    thread = query.filter(Thread.id == thread_id).first()
     messages = Message.get_messages_by_id(thread_id)
     if request.method == 'POST':
         content = request.form['content']
-      #  sesMsg = Session()
         user = current_user.name
         now = datetime.now()
         date_time = now.strftime("%d/%m/%Y, %H:%M:%S")
@@ -119,13 +117,15 @@ def thread(thread_id):
         current_db_sessions.close()
 
     else:
-        return render_template("thread.html", thread = thread, messages = messages)
+        return render_template("thread.html", thread=thread, messages=messages)
+
 
 @app.route("/team")
 def team():
     return render_template('team.html')
 
-#Common drills and techniques.
+
+# Common drills and techniques.
 @app.route("/techniques")
 def techniques():
     '''
@@ -134,9 +134,11 @@ def techniques():
     '''
     return render_template('techniques.html')
 
+
 @app.route("/contact")
 def contact():
     return render_template('contact.html')
+
 
 @app.route("/newthread", methods=['GET', 'POST'])
 def newthread():
@@ -146,13 +148,13 @@ def newthread():
     :return: The thread posting form.
     '''
     if request.method == "POST":
-        #The attributes from the form are picked up and a new thread is added to the database.
+        # The attributes from the form are picked up and a new thread is added to the database.
         title = request.form['title']
         titleStr = title.replace(" ", "").lower()
         description = request.form['description']
         video = request.form['video']
         video = Thread.convertToEmbedded(video)
-        #Here, the file retrieved from the file chooser is copied to the static folder of the project.
+        # Here, the file retrieved from the file chooser is copied to the static folder of the project.
         if 'file' not in request.files:
             print('No file')
         file = request.files.get('file')
@@ -167,17 +169,19 @@ def newthread():
             dst = ""
         tag = request.form['tags']
         if tag == "newtag":
-            tag = request.form['newtagtext'] #If a new tag is created, it will pick up the value from the new tag text field instead.
-        #sesThread = Session()
+            tag = request.form[
+                'newtagtext']  # If a new tag is created, it will pick up the value from the new tag text field instead.
+        # sesThread = Session()
         user = User.get_user(current_user.username)
         now = datetime.now()
         date_time = now.strftime("%d/%m/%Y, %H:%M:%S")
-        thread = Thread(user,title,description,dst,video,date_time,tag)
+        thread = Thread(user, title, description, dst, video, date_time, tag)
         current_db_sessions = Session.object_session(thread)
         current_db_sessions.add(thread)
         current_db_sessions.commit()
         current_db_sessions.close()
     return render_template('newthread.html')
+
 
 @app.route('/sw.js')
 def sw():
@@ -199,7 +203,7 @@ def login():
     Note that the password is not saved as raw text in the database. It gets encrypted before being stored.
     :return: The login form.
     '''
-    if current_user.is_authenticated: #This method is implemented by the Flask library itself.
+    if current_user.is_authenticated:  # This method is implemented by the Flask library itself.
         return redirect('index.html')
     form = LoginForm()
     if form.validate_on_submit():
@@ -229,6 +233,7 @@ def register():
         session.close()
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
+
 
 @app.route('/logout', methods=['GET', 'POST'])
 @login_required
