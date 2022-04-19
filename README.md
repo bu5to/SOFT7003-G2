@@ -30,8 +30,6 @@
 - jQuery
 - Bootstrap
 - Gunicorn
-  - Service worker
-  - Manifest.json  
 
 # Pre-requirements
 
