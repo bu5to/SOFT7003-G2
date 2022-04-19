@@ -5,7 +5,7 @@ from forms import RegisterForm, LoginForm
 from base import Session, engine, Base
 from datetime import datetime
 from werkzeug.utils import secure_filename
-from models import User, Thread, Message
+from models import User, Thread, Message, Plan
 
 
 def create_app():
@@ -70,15 +70,6 @@ def about():
     return render_template('courtplanner.html')
 
 
-@app.route("/trainingplans")
-def trainingplans():
-    '''
-    This URL belongs to the training plans section, where tactics can be drawn.
-    :return: The training plans page.
-    '''
-    return render_template('about.html')
-
-
 @app.route("/forum")
 def forum():
     '''
@@ -90,6 +81,15 @@ def forum():
     tags = Thread.getAllTags()
     return render_template('forum.html', threads=threads, tags=tags)
 
+@app.route("/trainingplans")
+def trainingplans():
+    '''
+    This URL belongs to the training plans section, where tactics can be drawn.
+    :return: The training plans page.
+    '''
+    user = User.get_user(current_user.username)
+    plans = Plan.getPlansById(user.id)
+    return render_template('trainingplans.html', plans = plans)
 
 @app.route('/thread/<int:thread_id>', methods=["GET", "POST"])
 def thread(thread_id):
@@ -119,6 +119,19 @@ def thread(thread_id):
         return render_template("thread.html", thread=thread, messages=messages)
 
 
+@app.route('/plan/<int:plan_id>', methods=["GET", "POST"])
+def plan(plan_id):
+    '''
+    This is a dynamic URL that will lead to a plan, according to its ID.
+    :param thread_id: The ID of the plan whose content is meant to be displayed.
+    :return: The plan template.
+    '''
+    session = Session()
+    query = session.query(Plan)
+    plan = query.filter(Plan.id == plan_id).first()
+    return render_template("plan.html", plan=plan)
+
+
 @app.route("/team")
 def team():
     return render_template('team.html')
@@ -137,6 +150,40 @@ def techniques():
 @app.route("/contact")
 def contact():
     return render_template('contact.html')
+
+@app.route("/newplan", methods=['GET', 'POST'])
+def newplan():
+    '''
+    URL to post new threads to the forum. Code is explained step by step below,
+    as there are many key features that are considered in this request.
+    :return: The thread posting form.
+    '''
+    if request.method == "POST":
+        # The attributes from the form are picked up and a new thread is added to the database.
+        title = request.form['title']
+        titleStr = "plan" + title.replace(" ", "").lower()
+        description = request.form['description']
+        # Here, the file retrieved from the file chooser is copied to the static folder of the project.
+        if 'file' not in request.files:
+            print('No file')
+        file = request.files.get('file')
+        print(file)
+        if file.filename == '':
+            print("No selected file")
+        if file:
+            filename = secure_filename(titleStr + ".png")
+            file.save(app.config['UPLOAD_FOLDER'] + filename)
+            dst = filename
+        else:
+            dst = ""
+        user = User.get_user(current_user.username)
+        plan = Plan(user, title, description, dst)
+        current_db_sessions = Session.object_session(plan)
+        current_db_sessions.add(plan)
+        current_db_sessions.commit()
+        current_db_sessions.close()
+    return render_template('newplan.html')
+
 
 
 @app.route("/newthread", methods=['GET', 'POST'])

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Plan{% endblock %}
+{% block content %}
+    <section id="portfolio" class="portfolio">
+        <div class="container">
+            <h2 style="text-align: center;">{{ plan.title }}</h2>
+            <div class="col-lg-12 d-flex justify-content-center" data-aos="fade-up">
+                <p style="text-align: justify;">{{ plan.description }}</p>
+            </div>
+            {% if plan.image != "" %}
+            <div>
+            <p style="text-align: center;"><img src="{{ url_for('static', filename='img/' + plan.image) }}" width="80%"></p>
+            </div>
+            {% endif %}
+        </div>
+    </section><!-- End Portfolio Section -->
+{% endblock %}

@@ -97,6 +97,43 @@ class Plan(Base):
         self.image = image
 
 
+    def getAllPlans():
+        '''
+        An array with the plans is retrieved from the database.
+        :return: The array containing all the plans registered in the database.
+        '''
+        sesPlans = Session()
+        sesPlans.expire_on_commit = False
+        plans = sesPlans.query(Plan)
+        plans = plans.all()
+        return plans
+
+
+    def getPlansById(coach_id):
+        '''
+        All the training plans of a certain coach will be retrieved.
+        :param coach_id: The ID of the coach whose plans are being retrieved.
+        :return: The array containing the plans.
+        '''
+        sesPlan = Session()
+        plans = sesPlan.query(Plan).filter(Plan.user_id == coach_id).all()
+        sesPlan.close()
+        return plans
+
+
+    def getPlanById(id):
+        '''
+        The plan is searched by its ID.
+        :param id: The ID of the plan whose information is being retrieved.
+        :return: the plan as an object, with its information.
+        '''
+        plans = Plan.getAllPlans()
+        for plan in plans:
+            if plan.id == id:
+                return plan
+        return None
+
+
 class Thread(Base):
     __tablename__ = 'thread'
     id = Column(Integer, primary_key=True)
