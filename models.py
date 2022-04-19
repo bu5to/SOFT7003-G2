@@ -35,6 +35,7 @@ class User(Base, UserMixin):
     def get_user(username):
         '''
         In this method, the data of the user is retrieved given its username.
+        :param username: The username of the user whose information is being retrieved.
         :return: The user as an object with all of its details.
         '''
         users = User.get_users()
@@ -47,6 +48,7 @@ class User(Base, UserMixin):
         '''
         This method follows the same structure as the one before.
         However, here, the ID is the parameter that will be used to search the user.
+        :param id: The ID of the user whose information is being retrieved.
         :return: The user as an object with all of its details.
         '''
         users = User.get_users()
@@ -59,6 +61,7 @@ class User(Base, UserMixin):
         '''
         This method follows the same structure as the one before.
         However, here, the email is the parameter that will be used to search the user.
+        :param email: The email of the user whose information is being retrieved.
         :return: The user as an object with all of its details.
         '''
         users = User.get_users()
@@ -148,6 +151,7 @@ class Thread(Base):
     def getThreadById(id):
         '''
         The thread is searched by its ID.
+        :param id: The ID of the thread whose information is being retrieved.
         :return: the thread as an object, with its essential and optional information.
         '''
         threads = Thread.getAllThreads()
@@ -175,7 +179,8 @@ class Message(Base):
         '''
         When a thread is accessed in the forum,
         all the comments made in that thread are retrieved as an array.
-        :return: The array with the message.
+        :param thread_id: The ID of the thread whose messages are being retrieved.
+        :return: The array containing the messages.
         '''
         sesMsg = Session()
         messages = sesMsg.query(Message).filter(Message.thread_id == thread_id).all()
