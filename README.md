@@ -18,6 +18,21 @@
 > Adebayo Aromolaran
 > 
 
+
+# Software and tools used for this project
+
+- Python
+- Flask
+  - Flask-Login
+  - WTForms
+  - Werkzeug 
+- SQLAlchemy
+- jQuery
+- Bootstrap
+- Gunicorn
+  - Service worker
+  - Manifest.json  
+
 # Pre-requirements
 
 - Python needs to be installed in order to run the software.
