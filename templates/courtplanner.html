@@ -72,6 +72,7 @@ window.onload = function(){
       <!--<button id="btn" class="btn">Save your court</button> -->
     </div>
 
+    <!--Tool Bar HTML elements-->
     <div class="toolbarContainer">
       <div class="toolbar">
         <select id="dtool">
@@ -80,6 +81,7 @@ window.onload = function(){
           <option value="pencil">Pencil</option>
           <option value="eraser">Eraser</option>
         </select>
+        <!--Reloads entire webpage to clear javascript context-->
         <button
           type="button"
           onClick="window.location.reload();"
@@ -93,7 +95,7 @@ window.onload = function(){
       </div>
     </div>
   </div>
-
+  <!--Canvas court planner-->
   <div id="container">
     <canvas id="imageView" width="600" height="600">
       <p>
@@ -183,6 +185,7 @@ window.onload = function(){
 </style>
 <script>
   // Canvas script for court planner canvas - adapted from:
+  // Enes, M., 2022. Canvas drawing tool. [online] Codepen. Available at: <https://codepen.io/pavlovsk/pen/WQEray>
 
   // Keep everything in anonymous function, called on window load.
   if (window.addEventListener) {
@@ -226,6 +229,7 @@ window.onload = function(){
             return;
           }
 
+          // Ratio equivilent to court svg while considering window size for responsive design
           var ww = window.innerWidth;
           var wh = window.innerHeight;
           var ratio = 0.52;
